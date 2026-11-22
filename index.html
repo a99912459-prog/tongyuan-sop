@@ -1,0 +1,2611 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>統元豆花 - 門市SOP學習與考核系統</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="統元SOP">
+  <style>
+    :root {
+      --primary: #c2410c;
+      --primary-light: #ffedd5;
+      --primary-dark: #9a3412;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      --badge-sugar: #d97706;
+      --badge-soup: #0284c7;
+      --badge-main: #4f46e5;
+      --badge-prep: #16a34a;
+      --success: #16a34a;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang TC", "Noto Sans TC", sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding-bottom: 75px;
+    }
+
+    /* 頂部固定列 */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 8px 14px 6px 14px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .quiz-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 5px 11px;
+      border-radius: 18px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .settings-icon-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      color: #64748b;
+      padding: 5px 8px;
+      border-radius: 18px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* 學員進度指示條 */
+    .trainee-bar {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 6px 10px;
+      margin-bottom: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .trainee-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+    }
+    .trainee-name-tag {
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .trainee-progress-text {
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ea580c, #16a34a);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* 搜尋欄 */
+    .search-bar {
+      position: relative;
+      margin-bottom: 2px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 8px 12px 8px 34px;
+      font-size: 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #f1f5f9;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-input:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15);
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+    .clear-search {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: #94a3b8;
+      display: none;
+      cursor: pointer;
+    }
+
+    /* 橫向滑動分類 Tab */
+    .tab-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 8px 14px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      scrollbar-width: none;
+    }
+    .tab-container::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex: 0 0 auto;
+      padding: 6px 13px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-sub);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 4px rgba(194, 65, 12, 0.25);
+    }
+    .tab-check {
+      font-size: 0.72rem;
+      display: none;
+    }
+    .tab-btn.completed .tab-check {
+      display: inline;
+    }
+
+    /* 容器區塊 */
+    main {
+      padding: 12px 14px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* 大類頂部橫幅 */
+    .cat-hero {
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 1px solid #fed7aa;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .cat-hero h2 {
+      margin: 0 0 6px 0;
+      font-size: 1.1rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cat-hero-rule {
+      font-size: 0.82rem;
+      color: #7c2d12;
+      line-height: 1.45;
+      margin-top: 4px;
+    }
+    .cat-hero-seq {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 6px 10px;
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #9a3412;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-left: 3px solid var(--primary);
+    }
+
+    /* 品項卡片 */
+    .item-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 8px;
+    }
+    .item-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 0;
+    }
+    .item-sugar-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      white-space: nowrap;
+    }
+
+    /* 規格網格 */
+    .item-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.86rem;
+    }
+    .spec-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      line-height: 1.4;
+    }
+    .spec-label {
+      flex: 0 0 68px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .label-main { background: #e0e7ff; color: #3730a3; }
+    .label-ing { background: #dcfce7; color: #166534; }
+    .label-soup { background: #e0f2fe; color: #0369a1; }
+    .spec-val {
+      flex: 1;
+      color: #334155;
+    }
+
+    /* 製作要點提醒 */
+    .item-notes {
+      margin-top: 10px;
+      padding: 8px 10px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 3px solid #cbd5e1;
+      font-size: 0.78rem;
+      color: #475569;
+      line-height: 1.4;
+    }
+    .item-notes ul {
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    /* 防呆守則折疊區塊 */
+    .rules-section {
+      background: #fffbeb;
+      border: 1px solid #fef3c7;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 16px;
+    }
+    .rules-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .rules-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.8rem;
+      color: #78350f;
+      line-height: 1.5;
+    }
+
+    /* 大類底部完成學習打卡按鈕 */
+    .completion-box {
+      margin-top: 24px;
+      padding: 16px;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .completion-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-not-done {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-done {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1.5px solid #a7f3d0;
+    }
+
+    /* 模組 7 特殊佈局 (加料區、桶蓋色標、杯型) */
+    .addon-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .addon-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.82rem;
+    }
+    .addon-name {
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+    .addon-portion {
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.86rem;
+    }
+    .addon-rule {
+      color: #64748b;
+      font-size: 0.74rem;
+      margin-top: 2px;
+    }
+
+    .lid-list, .cup-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .lid-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+    }
+    .color-dot {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+
+    /* 彈窗樣式 (Quiz & Profile & Settings) */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-box {
+      background: #ffffff;
+      border-radius: 18px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 14px 18px;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title { font-weight: 700; font-size: 1.05rem; }
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+    .modal-body {
+      padding: 18px;
+      overflow-y: auto;
+    }
+
+    /* 測驗題目樣式 */
+    .quiz-question-box {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .quiz-q-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .quiz-option-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.86rem;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quiz-option-label:active {
+      background: #f1f5f9;
+    }
+    .quiz-option-label.selected {
+      border-color: var(--primary);
+      background: #fff7ed;
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+    .quiz-option-label.correct {
+      border-color: #22c55e;
+      background: #f0fdf4;
+      color: #166534;
+      font-weight: 700;
+    }
+    .quiz-option-label.wrong {
+      border-color: #ef4444;
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .submit-quiz-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .quiz-result-card {
+      display: none;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      margin-top: 12px;
+    }
+    .quiz-score-big {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin: 8px 0;
+    }
+    .sync-to-sheet-btn {
+      width: 100%;
+      padding: 12px;
+      background: #16a34a;
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* 表單輸入框 */
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15);
+    }
+
+    /* 浮動提示 Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+      z-index: 200;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .no-result {
+      text-align: center;
+      padding: 40px 20px;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部列 -->
+  <header>
+    <div class="header-top">
+      <div class="brand-title">
+        <span>🥣 統元豆花 SOP 學習系統</span>
+      </div>
+      <div class="header-actions">
+        <button class="quiz-btn" onclick="openQuiz()">
+          <span>🎓 考核隨堂考</span>
+        </button>
+        <button class="settings-icon-btn" onclick="openSettings()" title="設定">
+          <span>⚙️</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 學員資訊與進度指示條 -->
+    <div class="trainee-bar" onclick="openProfileModal()">
+      <div class="trainee-info-row">
+        <span class="trainee-name-tag">
+          👤 <span id="traineeNameDisplay">學員：未登錄</span>
+          <span style="color:#94a3b8; font-weight:normal;">|</span>
+          <span id="traineeBranchDisplay">點此設定門市</span>
+        </span>
+        <span class="trainee-progress-text" id="traineeProgressText">進度 0% (0/7)</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBarFill"></div>
+      </div>
+    </div>
+
+    <!-- 搜尋欄 -->
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="輸入品名、配料或規格 (如: 芋頭、豆漿、小碗)..." oninput="handleSearch()">
+      <button id="clearSearchBtn" class="clear-search" onclick="clearSearch()">×</button>
+    </div>
+  </header>
+
+  <!-- 七大分類 Tab 橫向滑動列 -->
+  <nav class="tab-container" id="categoryTabs">
+    <button class="tab-btn active" id="tabBtn1" onclick="switchCategory(1)"><span class="tab-check">✅</span>1. 豆花系列</button>
+    <button class="tab-btn" id="tabBtn2" onclick="switchCategory(2)"><span class="tab-check">✅</span>2. 仙草系列</button>
+    <button class="tab-btn" id="tabBtn3" onclick="switchCategory(3)"><span class="tab-check">✅</span>3. 薏仁系列</button>
+    <button class="tab-btn" id="tabBtn4" onclick="switchCategory(4)"><span class="tab-check">✅</span>4. 刨冰系列</button>
+    <button class="tab-btn" id="tabBtn5" onclick="switchCategory(5)"><span class="tab-check">✅</span>5. 湯芋圓系列</button>
+    <button class="tab-btn" id="tabBtn6" onclick="switchCategory(6)"><span class="tab-check">✅</span>6. 飲品系列</button>
+    <button class="tab-btn" id="tabBtn7" onclick="switchCategory(7)"><span class="tab-check">✅</span>7. 加料&規格</button>
+  </nav>
+
+  <!-- 主內容區塊 -->
+  <main id="contentContainer">
+    <!-- JS 動態載入分類內容或搜尋結果 -->
+  </main>
+
+  <!-- 學員身分設定彈窗 -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">👤 學員基本資料設定</span>
+        <button class="close-btn" onclick="closeProfileModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 14px;">
+          請填寫您的姓名與所屬門市，以便將研讀進度與考核成績正確記錄至管理人員的 Google 試算表：
+        </div>
+        <div class="form-group">
+          <label class="form-label">學員姓名 *</label>
+          <input type="text" id="inputStudentName" class="form-input" placeholder="例如：陳小明">
+        </div>
+        <div class="form-group">
+          <label class="form-label">所屬門市 / 班別 *</label>
+          <input type="text" id="inputStoreBranch" class="form-input" placeholder="例如：總店 / 早班">
+        </div>
+        <button class="submit-quiz-btn" onclick="saveProfile()">確認儲存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 系統與後台 API 設定彈窗 -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">⚙️ 系統設定 & Google 試算表串接</span>
+        <button class="close-btn" onclick="closeSettings()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Google Apps Script Web App 網址</label>
+          <input type="text" id="inputApiUrl" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
+          <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 4px;">
+            管理人員請依照 <code>google_sheet_setup_guide.md</code> 教學取得此網址貼入。
+          </div>
+        </div>
+        <button class="submit-quiz-btn" onclick="saveSettings()">儲存設定</button>
+
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid var(--border);">
+
+        <div style="font-size: 0.84rem; color: #64748b; margin-bottom: 8px;">進度重設：</div>
+        <button style="width: 100%; padding: 10px; background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; border-radius: 10px; font-weight: 600; cursor: pointer;" onclick="resetAllProgress()">
+          🔄 清除本機所有研讀進度 (重新練習)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 隨堂測驗彈窗 -->
+  <div class="modal-overlay" id="quizModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">🎓 新人考核測驗 (隨機 5 題)</span>
+        <button class="close-btn" onclick="closeQuiz()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="quizQuestionsContainer">
+          <!-- JS 動態產生選擇題 -->
+        </div>
+
+        <button id="submitQuizBtn" class="submit-quiz-btn" onclick="gradeQuiz()">交卷並計算分數</button>
+
+        <div class="quiz-result-card" id="quizResultCard">
+          <div style="font-size: 0.95rem; font-weight: 700; color: #334155;">測驗成果結算</div>
+          <div class="quiz-score-big" id="quizScoreText">100 分</div>
+          <div style="font-size: 0.84rem; color: #64748b;" id="quizFeedbackText">太棒了！完全掌握門市標準規範！</div>
+          
+          <button class="sync-to-sheet-btn" id="syncScoreBtn" onclick="syncScoreToSheet()">
+            <span>📤 上傳測驗成果至管理人員試算表</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 浮動通知 Toast -->
+  <div class="toast" id="toastBox">
+    <span id="toastIcon">✅</span>
+    <span id="toastMsg">進度已同步！</span>
+  </div>
+
+  <script>
+    // 直接內嵌完整 SOP 資料
+    const sopData = {
+  "1": {
+    "id": 1,
+    "title": "豆花系列 (傳統 / 布丁 / 抹茶)",
+    "core_ratio": "完美比例 1:1:1 (豆花 1 : 配料 1 : 湯 1)。豆花過多會導致湯汁不足，影響口感太乾。",
+    "prep_sequence": "豆花 -> 糖膏 -> 配料 -> 碎冰 -> 湯底 (切勿因急忙先加配料、糖膏、碎冰！)",
+    "golden_rules": [
+      "豆花重量誤差規範：±10g (170g: 1.5片 / 200g: 2片 / 220g: 2.5片 / 250g: 3片)。",
+      "桶底碎片處理：豆花桶最底部無法切整片狀時，請 (1/4) 少量鋪底，上面覆蓋完整整片豆花，避免影響口感；勿製作到冬瓜湯底透明品項。",
+      "白點塊檢查：冷熱豆花桶接近鐵底時，有時因豆花粉結塊問題有小白點塊，必須翻面確認並去除勿使用。",
+      "加冰補糖規則：少冰 (+2) 分糖、加冰 (+4) 分糖、多冰 (+6) 分糖 (因冰塊稀釋甜度)。",
+      "加購配料影響加湯量時：可微調豆花10g；配料體積較大時改另裝方式 (260cc杯: 芋頭、紫米)。",
+      "當天未售完之粉圓與湯圓，閉店時當倒廚餘，絕不能放冷藏隔天用！"
+    ],
+    "items": [
+      {
+        "name": "綜合豆花",
+        "main_ingredient": "豆花 170g (1.5片，誤差±10g)",
+        "sugar_level": "6分糖",
+        "ingredients": "任選3料(各2/3匙): 紅豆50g、綠豆50g、彎豆50g、花生35g、粉圓45g、芋圓4顆+地瓜圓2顆(共6顆)、湯圓35g、芋頭45g+芋頭汁2/3匙、愛玉50g、仙草50g、燕麥2/3匙",
+        "soup_base": "花生汁 > 紅豆汁 > 綠豆汁 > 甜湯 (若遇雙豆類時湯底必為甜湯)",
+        "notes": [
+          "若客人只選2料，需主動詢問哪個料要多一點，芋圓兩份為8顆，其餘配料份量為 X(2) 次。",
+          "客人任搭時，以招牌配料為主(花生、紅豆、芋圓)，避免主動加彎豆、薏仁(非大眾料且挑人吃)。",
+          "有加芋頭品項均需加芋頭汁2/3匙提香。"
+        ]
+      },
+      {
+        "name": "薏仁豆花",
+        "main_ingredient": "豆花 170g (1.5片)",
+        "sugar_level": "6分糖",
+        "ingredients": "薏仁湯底 (若改豆漿湯底時: 薏仁粒改為撈粒 60g / 1.5匙)",
+        "soup_base": "薏仁湯",
+        "notes": [
+          "若客人改豆漿湯底，務必改以撈粒 1.5匙 (60g) 製作。"
+        ]
+      },
+      {
+        "name": "花生豆花",
+        "main_ingredient": "豆花 220g (2.5片)",
+        "sugar_level": "9分糖",
+        "ingredients": "花生粒 50g (1匙，碎片多要補完整顆粒)",
+        "soup_base": "花生汁",
+        "notes": [
+          "花生粒較碎時或蜜花生汁較稠時，需補足完整顆粒數量為主。"
+        ]
+      },
+      {
+        "name": "紅豆豆花",
+        "main_ingredient": "豆花 200g (2片)",
+        "sugar_level": "9分糖",
+        "ingredients": "紅豆粒 140g (2匙)",
+        "soup_base": "紅豆汁",
+        "notes": [
+          "因熱過的豆類吸水份後較膨脹濕重，需瀝汁；如秤重時重量需增加5~10g。"
+        ]
+      },
+      {
+        "name": "綠豆豆花",
+        "main_ingredient": "豆花 200g (2片)",
+        "sugar_level": "9分糖",
+        "ingredients": "綠豆粒 140g (2匙)",
+        "soup_base": "綠豆汁",
+        "notes": [
+          "冬天熱品綠豆豆花湯底為花生湯，請事先告知客人可否接受。"
+        ]
+      },
+      {
+        "name": "彎豆豆花",
+        "main_ingredient": "豆花 200g (2片)",
+        "sugar_level": "9分糖",
+        "ingredients": "彎豆粒 140g (大豆2匙)",
+        "soup_base": "紅豆汁",
+        "notes": [
+          "彎豆湯底搭配紅豆汁。"
+        ]
+      },
+      {
+        "name": "粉圓豆花",
+        "main_ingredient": "豆花 220g (2.5片)",
+        "sugar_level": "4分糖",
+        "ingredients": "粉圓 90g (1.5匙)",
+        "soup_base": "甜湯",
+        "notes": [
+          "加圓類時需瀝乾汁液，避免增加甜度。"
+        ]
+      },
+      {
+        "name": "芋圓豆花",
+        "main_ingredient": "豆花 220g (2.5片)",
+        "sugar_level": "4分糖",
+        "ingredients": "芋圓 8顆 + 地瓜圓 4顆 (共12顆，1/3比例地瓜圓配色)",
+        "soup_base": "甜湯",
+        "notes": [
+          "加圓類需瀝汁，避免過甜。"
+        ]
+      },
+      {
+        "name": "湯圓豆花",
+        "main_ingredient": "豆花 220g (2.5片)",
+        "sugar_level": "4分糖",
+        "ingredients": "湯圓 70g (1匙)",
+        "soup_base": "甜湯",
+        "notes": [
+          "加圓類湯汁需瀝乾。"
+        ]
+      },
+      {
+        "name": "芋頭豆花",
+        "main_ingredient": "豆花 220g (2.5片)",
+        "sugar_level": "4分糖",
+        "ingredients": "芋頭 85g (完整4塊) + 芋頭汁 1匙",
+        "soup_base": "甜湯",
+        "notes": [
+          "遇太小塊或碎塊時需補足至85g重量，加芋頭品項一律加芋頭汁1匙。"
+        ]
+      },
+      {
+        "name": "仙草豆花",
+        "main_ingredient": "豆花 170g (1.5片)",
+        "sugar_level": "4分糖",
+        "ingredients": "仙草 200g (1.5匙)",
+        "soup_base": "甜湯",
+        "notes": [
+          "仙草凍須瀝乾仙草汁後再加入，避免湯汁混濁。"
+        ]
+      },
+      {
+        "name": "純豆花",
+        "main_ingredient": "豆花 250g (3片，無料)",
+        "sugar_level": "4分糖",
+        "ingredients": "無配料",
+        "soup_base": "甜湯",
+        "notes": [
+          "純豆花給滿3片 (250g)。"
+        ]
+      },
+      {
+        "name": "豆漿豆花",
+        "main_ingredient": "豆花 250g (3片)",
+        "sugar_level": "12分糖",
+        "ingredients": "無配料",
+        "soup_base": "豆漿",
+        "notes": [
+          "豆漿豆花糖度為12分糖。"
+        ]
+      },
+      {
+        "name": "紅豆薏仁牛奶豆花",
+        "main_ingredient": "豆花 170g (1.5片)",
+        "sugar_level": "6分糖",
+        "ingredients": "紅豆粒 140g (2匙) + 鮮奶 100cc + 薏仁粒 60g (撈粒1.5匙)",
+        "soup_base": "薏仁汁",
+        "notes": [
+          "薏仁為撈粒1.5匙，不是加薏仁湯。"
+        ]
+      },
+      {
+        "name": "珍珠奶茶布丁豆花",
+        "main_ingredient": "布丁豆花 220g",
+        "sugar_level": "6分糖",
+        "ingredients": "粉圓 90g (1.5匙) + 鮮奶 100cc",
+        "soup_base": "紅茶 (加到9分滿)",
+        "notes": [
+          "採用布丁豆花底，紅茶加至9分滿。"
+        ]
+      },
+      {
+        "name": "青檸愛玉粉圓豆花",
+        "main_ingredient": "豆花 170g (1.5片)",
+        "sugar_level": "9分糖",
+        "ingredients": "粉圓 60g (1匙) + 愛玉 50g (1匙) + 檸檬汁 20cc",
+        "soup_base": "甜湯",
+        "notes": [
+          "檸檬汁 20cc，糖度搭配9分糖。"
+        ]
+      },
+      {
+        "name": "高雄式乾豆花",
+        "main_ingredient": "豆花 9分滿 (滿匙)",
+        "sugar_level": "27分糖 (9匙*3)",
+        "ingredients": "無配料 (價錢與純豆花相同)",
+        "soup_base": "不加湯",
+        "notes": [
+          "不加湯底，純糖膏27分。"
+        ]
+      }
+    ]
+  },
+  "2": {
+    "id": 2,
+    "title": "仙草系列 (仙草凍 / 燒仙草)",
+    "core_ratio": "主料與配料份量規格同豆花系列。仙草做餐一律須瀝汁秤重（秤重不含仙草汁）。",
+    "prep_sequence": "仙草凍 -> 糖膏 -> 配料 -> 湯底；燒仙草則先備配料再沖入熱燒仙草汁。",
+    "golden_rules": [
+      "煮仙草糖比例：半桶/二砂+特砂=(230)g；一桶/二砂+特砂=(460)g。",
+      "煮法要點：凝固劑包液體與粉要融化至無粉塊，倒入仙草時需一直攪拌(含鍋底)到沸騰是關鍵！",
+      "仙草去皮：煮好倒入容器約15分鐘，先撈除最上層仙草皮。",
+      "仙草凍切法：橫切+縱切成(井)字狀，間距約2cm，再用大勺子一片片勺起厚度2cm，勿隨意切碎！隨意碎切會吃不到Q彈口感與中藥回甘香氣，視覺也會軟爛沒份量。",
+      "冬天仙草凍不可使用在熱品裡！熱品仙草一律採用現熱燒仙草汁。",
+      "燒仙草狀態：必須保持加熱溫度呈水狀；若呈現濃稠汁狀表示溫度不夠熱需再加熱。"
+    ],
+    "items": [
+      {
+        "name": "綜合仙草凍",
+        "main_ingredient": "仙草凍 170g",
+        "sugar_level": "6分糖",
+        "ingredients": "配料同綜合豆花 (選3料各2/3匙)",
+        "soup_base": "花生汁 > 紅豆汁 > 綠豆汁 > 甜湯 (雙豆類為甜湯)",
+        "notes": [
+          "仙草需切成2cm井字立方體，大勺撈取。"
+        ]
+      },
+      {
+        "name": "紅豆仙草 (凍/燒)",
+        "main_ingredient": "仙草 200g",
+        "sugar_level": "9分糖",
+        "ingredients": "紅豆粒 140g (2匙)",
+        "soup_base": "紅豆汁",
+        "notes": [
+          "燒仙草品項糖度同為9分。"
+        ]
+      },
+      {
+        "name": "綠豆仙草 (凍/燒)",
+        "main_ingredient": "仙草 200g",
+        "sugar_level": "9分糖",
+        "ingredients": "綠豆粒 140g (2匙)",
+        "soup_base": "綠豆汁",
+        "notes": [
+          "綠豆汁湯底。"
+        ]
+      },
+      {
+        "name": "粉圓仙草 (凍/燒)",
+        "main_ingredient": "仙草 220g",
+        "sugar_level": "4分糖",
+        "ingredients": "粉圓 90g (1.5匙)",
+        "soup_base": "甜湯",
+        "notes": [
+          "圓類需瀝乾湯汁。"
+        ]
+      },
+      {
+        "name": "芋圓仙草 (凍/燒)",
+        "main_ingredient": "仙草 220g",
+        "sugar_level": "4分糖",
+        "ingredients": "芋圓 8顆 + 地瓜圓 4顆 (共12顆)",
+        "soup_base": "甜湯",
+        "notes": [
+          "芋圓8顆+地瓜圓4顆。"
+        ]
+      },
+      {
+        "name": "湯圓仙草 (凍/燒)",
+        "main_ingredient": "仙草 220g",
+        "sugar_level": "4分糖",
+        "ingredients": "湯圓 70g (1匙)",
+        "soup_base": "甜湯",
+        "notes": [
+          "湯圓1匙。"
+        ]
+      },
+      {
+        "name": "芋頭仙草 (凍/燒)",
+        "main_ingredient": "仙草 220g",
+        "sugar_level": "4分糖",
+        "ingredients": "芋頭 85g (完整4塊) + 芋頭汁 1匙",
+        "soup_base": "甜湯",
+        "notes": [
+          "必須加芋頭汁1匙。"
+        ]
+      },
+      {
+        "name": "純仙草凍",
+        "main_ingredient": "仙草 250g",
+        "sugar_level": "4分糖",
+        "ingredients": "無配料",
+        "soup_base": "甜湯",
+        "notes": [
+          "純仙草250g。"
+        ]
+      },
+      {
+        "name": "仙草凍+奶油球",
+        "main_ingredient": "仙草凍份量同豆花",
+        "sugar_level": "刨冰糖膏 9分",
+        "ingredients": "配料份量同豆花",
+        "soup_base": "刨冰壓實後半碗 -> 淋糖膏9分 -> 放仙草配料 -> 附奶油球1顆",
+        "notes": [
+          "特殊做餐：先刨冰壓實後半碗，淋糖膏9分，再放仙草配料與奶油球。"
+        ]
+      },
+      {
+        "name": "仙草凍+鮮奶",
+        "main_ingredient": "仙草凍份量同豆花",
+        "sugar_level": "無額外加糖",
+        "ingredients": "配料份量同豆花",
+        "soup_base": "鮮奶 150cc",
+        "notes": [
+          "鮮奶 150cc。"
+        ]
+      },
+      {
+        "name": "綜合燒仙草 (熱)",
+        "main_ingredient": "燒仙草汁",
+        "sugar_level": "6分糖",
+        "ingredients": "紅豆粒、綠豆粒、彎豆粒各1匙，花生1/2匙，粉圓2/3匙，芋圓8顆，湯圓1/2匙 (配料完成約1/3杯量)",
+        "soup_base": "燒仙草汁補滿",
+        "notes": [
+          "均附硬花生 (12g) 1包。客人電話預訂可先做配料，到店再加燒仙草避免加速凝固。"
+        ]
+      },
+      {
+        "name": "純燒仙草 (熱)",
+        "main_ingredient": "燒仙草汁補滿",
+        "sugar_level": "8分糖",
+        "ingredients": "無配料 (附硬花生1包)",
+        "soup_base": "燒仙草汁",
+        "notes": [
+          "純燒仙草糖度為8分糖。"
+        ]
+      }
+    ]
+  },
+  "3": {
+    "id": 3,
+    "title": "薏仁系列",
+    "core_ratio": "薏仁湯基底需上下充分攪拌；更換豆漿湯底時，薏仁改為撈粒 (綜合1.5匙/其餘2匙)。",
+    "prep_sequence": "由底往上充分攪拌薏仁湯 -> 舀入碗中 -> 放入配料 -> 補滿湯底/鮮奶。",
+    "golden_rules": [
+      "薏仁湯攪拌時：一定要由(底)部往上攪拌，多攪拌幾次，薏仁粒才能平均分佈。",
+      "使用薏仁湯前要先攪拌至湯粒均勻，若是'粒'較不足夠時，一定要另外撈薏仁粒補入。",
+      "所有牛奶品項 (紅豆薏仁牛奶、紅豆薏仁牛奶豆花、紫米紅豆薏仁牛奶) 都是撈粒 1.5匙，不是加薏仁湯！",
+      "薏仁湯的汁若清清無稠狀，表示失冰(久放)品質已經損壞變況，已不能再使用。",
+      "前天熱過的薏仁湯會濃稠，隔天僅僅使用於冷品，需'新+舊'各半混合為正常稠度狀態才可販售。",
+      "紫米加熱中切勿攪拌！攪拌會造成紫米失去黏性散開，破壞軟糯口感。",
+      "紫米與牛奶進貨時需標示日期，嚴格遵守'先進先出'原則。"
+    ],
+    "items": [
+      {
+        "name": "綜合薏仁",
+        "main_ingredient": "薏仁湯基底 (含粒)",
+        "sugar_level": "依配料自然甜度",
+        "ingredients": "紅豆50g、綠豆50g、彎豆50g、花生35g、粉圓45g、芋圓4+地瓜2、湯圓35g、芋頭45g+汁2/3匙、愛玉50g、仙草50g",
+        "soup_base": "薏仁湯 (若換豆漿湯底：薏仁改撈粒 60g/1.5匙，補豆漿)",
+        "notes": [
+          "換豆漿湯底時，薏仁粒改為撈粒 1.5匙。"
+        ]
+      },
+      {
+        "name": "花生薏仁",
+        "main_ingredient": "薏仁湯基底",
+        "sugar_level": "標準",
+        "ingredients": "花生粒 70g (1.5匙，碎片多要補完整)",
+        "soup_base": "薏仁湯 (換豆漿改撈粒2匙/80g)",
+        "notes": [
+          "花生薏仁之花生粒為1.5匙(70g)，與豆花之1匙(50g)不同，請特別注意！"
+        ]
+      },
+      {
+        "name": "紅豆 / 綠豆 / 彎豆 薏仁",
+        "main_ingredient": "薏仁湯基底",
+        "sugar_level": "標準",
+        "ingredients": "紅豆粒 / 綠豆粒 / 彎豆粒 140g (各2匙)",
+        "soup_base": "薏仁湯 (換豆漿改撈粒2匙/80g)",
+        "notes": [
+          "豆類2匙 (140g)。"
+        ]
+      },
+      {
+        "name": "芋圓薏仁",
+        "main_ingredient": "薏仁湯基底",
+        "sugar_level": "標準",
+        "ingredients": "芋圓 12顆 (約一匙滿: 8芋頭4地瓜)",
+        "soup_base": "薏仁湯",
+        "notes": [
+          "加圓類需瀝汁，避免糖水稀釋影響甜度。"
+        ]
+      },
+      {
+        "name": "湯圓薏仁",
+        "main_ingredient": "薏仁湯基底",
+        "sugar_level": "標準",
+        "ingredients": "湯圓 70g (1匙)",
+        "soup_base": "薏仁湯",
+        "notes": [
+          "湯圓1匙瀝汁。"
+        ]
+      },
+      {
+        "name": "粉圓薏仁",
+        "main_ingredient": "薏仁湯基底",
+        "sugar_level": "標準",
+        "ingredients": "粉圓 90g (1.5匙)",
+        "soup_base": "薏仁湯",
+        "notes": [
+          "粉圓1.5匙。"
+        ]
+      },
+      {
+        "name": "芋頭薏仁",
+        "main_ingredient": "薏仁湯基底",
+        "sugar_level": "標準",
+        "ingredients": "芋頭 85g (完整4塊) + 芋頭汁 1匙",
+        "soup_base": "薏仁湯",
+        "notes": [
+          "完整4塊，碎塊需補足85g，加芋頭汁1匙。"
+        ]
+      },
+      {
+        "name": "仙草薏仁",
+        "main_ingredient": "薏仁湯基底",
+        "sugar_level": "標準",
+        "ingredients": "仙草 200g",
+        "soup_base": "薏仁湯",
+        "notes": [
+          "仙草凍需瀝汁加入。"
+        ]
+      },
+      {
+        "name": "紫米薏仁",
+        "main_ingredient": "薏仁湯基底",
+        "sugar_level": "標準",
+        "ingredients": "紫米 80g (1匙)",
+        "soup_base": "薏仁湯",
+        "notes": [
+          "紫米加熱中切勿攪拌，會造成紫米失去黏性散開而無黏稠口感。"
+        ]
+      },
+      {
+        "name": "薏仁湯",
+        "main_ingredient": "純薏仁湯",
+        "sugar_level": "標準",
+        "ingredients": "無額外配料 (湯+粒平均攪拌，粒不足要補撈粒)",
+        "soup_base": "薏仁湯",
+        "notes": [
+          "若粒不足務必補撈粒。"
+        ]
+      },
+      {
+        "name": "薏仁牛奶",
+        "main_ingredient": "薏仁湯+粒平均攪拌 (或撈粒2匙)",
+        "sugar_level": "標準",
+        "ingredients": "鮮奶 100cc",
+        "soup_base": "薏仁湯 或 薏仁汁",
+        "notes": [
+          "鮮奶 100cc。"
+        ]
+      },
+      {
+        "name": "紅豆薏仁牛奶",
+        "main_ingredient": "鮮奶 100cc",
+        "sugar_level": "標準",
+        "ingredients": "紅豆粒 140g (2匙) + 薏仁粒 60g (撈粒1.5匙)",
+        "soup_base": "薏仁汁",
+        "notes": [
+          "紅豆薏仁牛奶是撈粒1.5匙，不是加薏仁湯！"
+        ]
+      },
+      {
+        "name": "紫米紅豆薏仁牛奶",
+        "main_ingredient": "鮮奶 100cc",
+        "sugar_level": "標準",
+        "ingredients": "紫米 80g + 紅豆粒 140g (2匙) + 薏仁粒 60g (撈粒1.5匙)",
+        "soup_base": "薏仁汁",
+        "notes": [
+          "注意紫米80g、紅豆2匙、薏仁撈粒1.5匙，湯底為薏仁汁。"
+        ]
+      }
+    ]
+  },
+  "4": {
+    "id": 4,
+    "title": "刨冰系列",
+    "core_ratio": "小碗 750cc (糖 2.5匙/外帶1.5匙)；大碗 900cc (糖 3.5匙/外帶2.5匙)。輕塑山形，邊溝留2~3cm防掉料。",
+    "prep_sequence": "內用：刨冰 -> 淋糖膏 -> 鋪配料 -> 淋煉乳 -> 頂置冰淇淋。\n外帶：敲冰後半杯 -> 糖膏 -> 配料 -> 淋煉乳 -> 冰淇淋 -> 加冰壓稍凸 -> 二次糖膏。",
+    "golden_rules": [
+      "置冰方式：戴雙手套，冰塊放至中心位置，上釘座刺入冰塊並壓緊；左手放開關，右手控制容器旋轉。",
+      "塑冰技巧：輕塑拍成山形狀，切勿重拍或重壓造成口感變硬無綿密感。邊溝需留2~3cm防止物料掉落。",
+      "鋪豆技巧：鋪豆類時需薄薄一層均勻鋪開，切勿重疊厚厚一層增加成本與重量負擔。",
+      "外帶底冰規範：外帶底冰量不能太少，敲冰後約半杯量；底冰太少會過甜，太多客人挖不到料。外帶開蓋後要能吃到黑糖挫冰。",
+      "冰淇淋挖法：冰勺每一球都要過水，用力往下壓至過勺底後轉一圈起球，若不足再刮些補圓度。切勿將煉乳淋在冰淇淋上！",
+      "刨冰+豆花特殊作法：冰一半 -> 加一半糖膏 -> 豆花(170g)均勻撲一層切勿集中 -> 再加未完成之冰量與糖膏。"
+    ],
+    "items": [
+      {
+        "name": "綜合四種冰 (小 750cc)",
+        "main_ingredient": "刨冰小碗 (糖膏: 內用2.5匙 / 外帶1.5匙)",
+        "sugar_level": "內用2.5匙 / 外帶1.5匙",
+        "ingredients": "任選4料: 紅/綠/彎豆各40g(2/3匙)、花生30g(0.5匙)、粉圓45g(2/3匙)、湯圓35g(0.5匙)、芋圓4顆+地瓜2顆(6顆)、芋頭45g(2塊)+芋頭汁2/3匙、愛玉50g、仙草50g(2/3匙)、鳳梨50g、情人果4片(完整)、燕麥2/3匙",
+        "soup_base": "煉乳均淋 35cc (若選麵茶粉: 1.5匙/18g)",
+        "notes": [
+          "四種配料各自各放四區，切勿雜燴混在一起！",
+          "加到芋頭或鳳梨，在此配料上淋上自己的湯汁。"
+        ]
+      },
+      {
+        "name": "綜合四種冰 (大 900cc)",
+        "main_ingredient": "刨冰大碗 (糖膏: 內用3.5匙 / 外帶2.5匙)",
+        "sugar_level": "內用3.5匙 / 外帶2.5匙",
+        "ingredients": "任選4料: 紅/綠/彎豆各80g(1匙)、花生70g(7分匙)、粉圓90g(1.5匙)、湯圓70g(1匙)、芋圓8顆+地瓜4顆(12顆)、芋頭85g(4塊)+芋頭汁1匙、愛玉70g、仙草70g(1匙)、鳳梨70g、情人果5片(完整)、燕麥1匙",
+        "soup_base": "煉乳均淋 50cc (若選麵茶粉: 2匙/25g)",
+        "notes": [
+          "大碗四種配料分四區整齊鋪放。煉乳均淋50cc。"
+        ]
+      },
+      {
+        "name": "香草紅豆牛奶冰 / 香草綠豆牛奶冰 (大 900)",
+        "main_ingredient": "大碗刨冰 (內用3.5匙 / 外帶2.5匙糖)",
+        "sugar_level": "大碗標準糖度",
+        "ingredients": "紅豆粒 或 綠豆粒 220g (3匙滿)",
+        "soup_base": "煉乳均淋 50cc + 香草冰淇淋 1球",
+        "notes": [
+          "豆類薄鋪一層，冰勺過水轉一圈壓出完整圓球放在最頂部，冰淇淋切勿淋到煉乳！"
+        ]
+      },
+      {
+        "name": "宇治金時圓仔冰 (大 900)",
+        "main_ingredient": "大碗刨冰",
+        "sugar_level": "內用3.5匙 / 外帶2.5匙糖",
+        "ingredients": "紅豆粒 220g (3匙) + 湯圓 70g (1匙)",
+        "soup_base": "煉乳均淋 50cc + 抹茶冰淇淋 1球",
+        "notes": [
+          "紅豆與湯圓分區鋪放，頂部放抹茶冰淇淋球。"
+        ]
+      },
+      {
+        "name": "香草芋圓仙草冰 (大 900)",
+        "main_ingredient": "大碗刨冰 (仙草冰邊溝需挖更深)",
+        "sugar_level": "內用3.5匙 / 外帶2.5匙糖",
+        "ingredients": "仙草凍 220g (3.5匙) + 芋圓8顆+地瓜圓4顆 (共12顆)",
+        "soup_base": "煉乳均淋 50cc + 香草冰淇淋 1球",
+        "notes": [
+          "仙草冰品底部冰需降低，邊溝深度增加，頂部挖洞讓仙草均勻鋪在上面。"
+        ]
+      },
+      {
+        "name": "香草綜合圓仔冰 (大 900)",
+        "main_ingredient": "大碗刨冰",
+        "sugar_level": "內用3.5匙 / 外帶2.5匙糖",
+        "ingredients": "紅豆、綠豆、彎豆、粉圓各1匙 (各80g/粉圓60g) + 湯圓 70g (1匙)",
+        "soup_base": "煉乳均淋 50cc + 香草冰淇淋 1球",
+        "notes": [
+          "多樣配料分區整齊鋪放。"
+        ]
+      },
+      {
+        "name": "紫米紅豆芋頭冰 (大 900)",
+        "main_ingredient": "大碗刨冰",
+        "sugar_level": "內用3.5匙 / 外帶2.5匙糖",
+        "ingredients": "紅豆粒 220g (3匙) + 紫米 80g + 芋頭 85g (4塊+芋頭汁1匙)",
+        "soup_base": "煉乳均淋 50cc",
+        "notes": [
+          "芋頭不足大小要補齊，芋頭上淋芋頭汁。"
+        ]
+      },
+      {
+        "name": "紅豆手炒花生冰 (大 900)",
+        "main_ingredient": "大碗刨冰",
+        "sugar_level": "內用3.5匙 / 外帶2.5匙糖",
+        "ingredients": "紅豆粒 3匙 + 硬花生 25g (一小袋)",
+        "soup_base": "煉乳均淋 50cc",
+        "notes": [
+          "硬花生需集中放置於中上半部，視覺上會增加多量感。"
+        ]
+      },
+      {
+        "name": "老麵茶紅豆圓仔冰 (大 900)",
+        "main_ingredient": "大碗刨冰",
+        "sugar_level": "內用3.5匙 / 外帶2.5匙糖",
+        "ingredients": "紅豆粒 220g (3匙) + 湯圓 70g (1匙) + 麵茶粉 25g (2匙)",
+        "soup_base": "無煉乳 (麵茶粉均勻撒於外層)",
+        "notes": [
+          "麵茶粉要均勻撒於外層，切勿集中成坨。"
+        ]
+      },
+      {
+        "name": "香草愛玉情人果冰 (大 900)",
+        "main_ingredient": "大碗刨冰",
+        "sugar_level": "內用2.5匙 / 外帶1.5匙糖",
+        "ingredients": "愛玉 220g + 情人果 6片 (完整片)",
+        "soup_base": "香草冰淇淋 1球 (無煉乳)",
+        "notes": [
+          "情人果整齊環繞排列。"
+        ]
+      },
+      {
+        "name": "台產二號土鳳梨冰 (小 750 / 大 900)",
+        "main_ingredient": "刨冰 (小 750 / 大 900)",
+        "sugar_level": "小: 2.5匙/1.5匙；大: 3.5匙/2.5匙",
+        "ingredients": "鳳梨塊 150g (3匙) + 鳳梨汁 2匙",
+        "soup_base": "煉乳均淋 (小35cc / 大50cc)",
+        "notes": [
+          "鳳梨汁2匙淋在鳳梨肉上。"
+        ]
+      },
+      {
+        "name": "清冰 (小 750 / 大 900)",
+        "main_ingredient": "刨冰 (小 750 / 大 900)",
+        "sugar_level": "小: 2匙/2匙；大: 3.5匙/3.5匙",
+        "ingredients": "無配料",
+        "soup_base": "刨冰糖膏分2次加 (冰一半、糖一半)",
+        "notes": [
+          "刨冰糖膏分兩次添加：先刨一半冰淋一半糖，再刨滿淋剩下的一半糖膏。"
+        ]
+      }
+    ]
+  },
+  "5": {
+    "id": 5,
+    "title": "湯芋圓 / 甜湯系列",
+    "core_ratio": "甜度標準統一為 4分糖 (花生湯底亦需加4分糖以激發花生香氣)。熱品順序先料後湯。",
+    "prep_sequence": "豆類 -> 圓類 -> 糖膏 -> 湯底 (請勿先加圓類，易造成比例不對及加湯人員誤判未完成！)",
+    "golden_rules": [
+      "做餐公克數重要性：以成品杯量做最後確認，不足需均補足杯量，勿少於標準造成客訴。",
+      "順序鐵則：豆類 -> 圓類 -> 糖膏 -> 湯。絕對不可先加圓類！",
+      "豆類加熱：油鍋加熱20~25分鐘拉起斜放，不要直接浸泡避免豆子爛糊。熱品豆類需使用漏洞湯匙瀝汁做餐。",
+      "熱台加湯匙劃分：紅豆汁與花生湯共用匙；薏仁湯匙、冬瓜茶匙、薑母湯匙務必分開！",
+      "花生粒加熱：加些許花生湯加熱5~8分鐘後斜放，勿持續加熱造成糊爛破碎。",
+      "芋頭加熱：需加芋頭汁至芋頭蓋住，加熱20分鐘後斜放備用，切勿長時間熱煮破壞外型。"
+    ],
+    "items": [
+      {
+        "name": "花生湯",
+        "main_ingredient": "花生湯 (杯量 1/4杯)",
+        "sugar_level": "4分糖",
+        "ingredients": "花生粒 120g (2.5匙)",
+        "soup_base": "花生湯底",
+        "notes": [
+          "花生湯底都需加4分糖，是為了讓花生風味香氣更濃純！"
+        ]
+      },
+      {
+        "name": "花生 湯圓 / 芋圓",
+        "main_ingredient": "花生湯 (杯量 1/3杯)",
+        "sugar_level": "4分糖",
+        "ingredients": "花生粒 120g (2.5匙) + [湯圓 70g (1匙)] 或 [芋圓 12顆 (8芋4地瓜)]",
+        "soup_base": "花生湯底",
+        "notes": [
+          "花生粒2.5匙，加圓類需瀝乾水分。"
+        ]
+      },
+      {
+        "name": "花生綜合",
+        "main_ingredient": "花生湯",
+        "sugar_level": "4分糖",
+        "ingredients": "配料同綜合豆花規格",
+        "soup_base": "花生湯底",
+        "notes": [
+          "配料同綜合豆花。"
+        ]
+      },
+      {
+        "name": "綠豆湯 / 紅豆湯",
+        "main_ingredient": "半杯量",
+        "sugar_level": "無額外加糖",
+        "ingredients": "綠豆粒 200g (3匙) 或 紅豆粒 200g (3匙)",
+        "soup_base": "綠豆汁 或 紅豆汁",
+        "notes": [
+          "純豆湯豆粒給3匙 (200g)。"
+        ]
+      },
+      {
+        "name": "紅豆/綠豆 湯圓 或 芋圓",
+        "main_ingredient": "半杯量",
+        "sugar_level": "無額外加糖",
+        "ingredients": "豆粒 180g (2.5匙) + [湯圓 70g (1匙)] 或 [芋圓 12顆 (8芋4地瓜)]",
+        "soup_base": "紅豆汁 或 綠豆汁",
+        "notes": [
+          "豆粒微調為2.5匙 (180g) 搭配圓類。"
+        ]
+      },
+      {
+        "name": "紅豆/綠豆 綜合",
+        "main_ingredient": "半杯量",
+        "sugar_level": "無額外加糖",
+        "ingredients": "豆粒 2.5匙 + 綜合配料",
+        "soup_base": "紅豆汁 或 綠豆汁",
+        "notes": [
+          "綜合配料份量同綜合豆花。"
+        ]
+      },
+      {
+        "name": "紅豆花生 湯圓 或 芋圓",
+        "main_ingredient": "半杯+花生量",
+        "sugar_level": "4分糖",
+        "ingredients": "紅豆粒 180g (2.5匙) + 花生粒 45g (7分匙) + [湯圓 70g 或 芋圓 12顆]",
+        "soup_base": "紅豆汁 + 花生汁 各一半",
+        "notes": [
+          "雙拼湯底：紅豆汁與花生汁各半。"
+        ]
+      },
+      {
+        "name": "紫米紅豆湯",
+        "main_ingredient": "半杯多",
+        "sugar_level": "無額外加糖",
+        "ingredients": "紅豆粒 200g (3匙) + 紫米 80g (1匙)",
+        "soup_base": "紅豆汁",
+        "notes": [
+          "紅豆3匙+紫米80g。"
+        ]
+      },
+      {
+        "name": "紫米紅豆 湯圓 或 芋圓",
+        "main_ingredient": "半杯多",
+        "sugar_level": "無額外加糖",
+        "ingredients": "紅豆粒 140g (2匙) + 紫米 80g + [湯圓 70g (1匙) 或 芋圓 12顆]",
+        "soup_base": "紅豆汁",
+        "notes": [
+          "紅豆調降為2匙搭配紫米與圓類。"
+        ]
+      },
+      {
+        "name": "純湯圓",
+        "main_ingredient": "圓量 1/3杯",
+        "sugar_level": "4分糖",
+        "ingredients": "湯圓 140g (2匙)",
+        "soup_base": "甜湯",
+        "notes": [
+          "純湯圓為2滿匙 (140g)。"
+        ]
+      },
+      {
+        "name": "純芋圓",
+        "main_ingredient": "圓量 1/3杯",
+        "sugar_level": "4分糖",
+        "ingredients": "芋圓 24顆 (16顆芋圓 + 8顆地瓜圓)",
+        "soup_base": "甜湯",
+        "notes": [
+          "純芋圓共24顆，比例為16芋8地瓜。"
+        ]
+      }
+    ]
+  },
+  "6": {
+    "id": 6,
+    "title": "飲品系列",
+    "core_ratio": "規格容量: M杯 500cc / L杯 660cc(700cc) / 罐裝 1000cc。糖量嚴格依刻度量測，不可憑感覺。",
+    "prep_sequence": "凍飲類順序：仙草/愛玉 -> 粉圓 -> 糖膏 -> 鮮奶/湯汁 (冰塊最後)。加冰補糖！",
+    "golden_rules": [
+      "做餐流程嚴守：仙草/凍類 -> 粉圓 -> 糖膏 -> 湯汁 (先加配料再加糖膏，加湯時才能均勻分散不沉底！)",
+      "加冰補糖鐵則：少冰 (+2) 分糖、加冰 (+4) 分糖、多冰 (+6) 分糖。",
+      "所有鮮奶與果汁 cc 數需用量杯精準量測，嚴禁憑目視或感覺添加。",
+      "綠豆汁、紅豆汁有重豆沙沉澱，每連續出2杯前都必須再次由底往上攪拌一次！"
+    ],
+    "items": [
+      {
+        "name": "純茶 (紅茶 / 冬瓜茶 / 綠豆汁)",
+        "main_ingredient": "M 500cc / L 660cc / 罐 1000cc",
+        "sugar_level": "無額外加糖 (冬瓜/綠豆自帶甜度)",
+        "ingredients": "無配料",
+        "soup_base": "紅茶、綠豆汁、冬瓜甜湯",
+        "notes": [
+          "綠豆汁有豆沙沉澱，每做餐2杯前都要重新攪拌一次！"
+        ]
+      },
+      {
+        "name": "薏仁汁 (無粒)",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "純原味",
+        "ingredients": "純清薏仁汁 (不帶顆粒)",
+        "soup_base": "清薏仁汁",
+        "notes": [
+          "嚴禁撈到薏仁顆粒。"
+        ]
+      },
+      {
+        "name": "綠豆薏仁汁",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "標準",
+        "ingredients": "清薏仁汁 7分滿 + 綠豆汁 3分滿",
+        "soup_base": "薏仁7 : 綠豆3",
+        "notes": [
+          "比例為清薏仁汁 70% 混和 綠豆汁 30%。"
+        ]
+      },
+      {
+        "name": "原味豆漿",
+        "main_ingredient": "M 500cc / L 660cc / 罐 1000cc",
+        "sugar_level": "M: 16分 (半糖8/微糖3) | L: 24分 (半糖12/微糖8) | 罐: 32分 (半糖16/微糖1匙)",
+        "ingredients": "無配料",
+        "soup_base": "新鮮豆漿",
+        "notes": [
+          "飲品豆漿糖量為 16分糖，與豆漿豆花(12分糖)不同！"
+        ]
+      },
+      {
+        "name": "豆漿紅茶",
+        "main_ingredient": "M 500cc / L 660cc / 罐 1000cc",
+        "sugar_level": "M: 9分 (半糖5/微糖3) | L: 12分 (半糖6/微糖4) | 罐: 18分 (半糖9/微糖6)",
+        "ingredients": "M: 紅茶 200cc | L: 紅茶 300cc | 罐: 紅茶 400cc",
+        "soup_base": "紅茶加入後，以豆漿補滿至標準線",
+        "notes": [
+          "依規格量杯量測紅茶cc數後，再倒入豆漿補滿。"
+        ]
+      },
+      {
+        "name": "炭燒鮮奶茶 / 綠沙鮮奶 / 冬瓜鮮奶",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "鮮奶系列自帶奶香",
+        "ingredients": "M: 鮮奶 150cc | L: 鮮奶 200cc",
+        "soup_base": "加入鮮奶後，以紅茶 / 綠豆汁 / 冬瓜茶補滿",
+        "notes": [
+          "鮮奶量必須用量杯量測，不可目測憑感覺。"
+        ]
+      },
+      {
+        "name": "炭燒珍珠奶茶",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "紅茶微甜",
+        "ingredients": "M: 粉圓 1平匙 (60g) + 鮮奶 150cc | L: 粉圓 1.5平匙 (90g) + 鮮奶 200cc",
+        "soup_base": "紅茶補滿",
+        "notes": [
+          "粉圓平匙加入，加入鮮奶後以紅茶加至滿杯。"
+        ]
+      },
+      {
+        "name": "仙草凍飲",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "M: 4分糖 | L: 6分糖",
+        "ingredients": "M: 仙草 200g (半杯第三線) | L: 仙草 300g",
+        "soup_base": "甜湯補滿",
+        "notes": [
+          "仙草切碎塊方便粗吸管吸吮。"
+        ]
+      },
+      {
+        "name": "綠豆汁仙草凍飲",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "M: 4分糖 | L: 6分糖",
+        "ingredients": "M: 仙草 200g | L: 仙草 300g",
+        "soup_base": "綠豆汁補滿",
+        "notes": [
+          "綠豆汁湯底前需充分攪拌豆沙泥。"
+        ]
+      },
+      {
+        "name": "珍珠仙草凍奶",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "M: 4分糖 | L: 6分糖",
+        "ingredients": "M: 仙草 150g(1/4杯) + 粉圓 1平匙 + 鮮奶 100cc | L: 仙草 200g + 粉圓 1.5匙 + 鮮奶 150cc",
+        "soup_base": "甜湯補滿",
+        "notes": [
+          "配料順序：仙草 -> 粉圓 -> 鮮奶 -> 糖膏 -> 甜湯。"
+        ]
+      },
+      {
+        "name": "麵茶仙草凍奶",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "麵茶原味甜度",
+        "ingredients": "M: 仙草 200g + 鮮奶 100cc + 碎冰 1匙 + 麵茶粉 20g (1.5匙) | L: 仙草 300g + 鮮奶 150cc + 碎冰 1匙 + 麵茶粉 25g (2匙)",
+        "soup_base": "甜湯補滿",
+        "notes": [
+          "加入碎冰1匙有助於麵茶粉與鮮奶均勻搖勻不結塊。"
+        ]
+      },
+      {
+        "name": "青檸愛玉凍飲",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "M: 9分糖 | L: 9分糖",
+        "ingredients": "M: 愛玉 200g (1.5匙) + 檸檬汁 20cc + 碎冰 1匙 | L: 愛玉 300g (2匙) + 檸檬汁 25cc + 碎冰 1匙",
+        "soup_base": "甜湯補滿",
+        "notes": [
+          "檸檬汁酸度高，糖度維持9分糖平衡酸甜風味。"
+        ]
+      },
+      {
+        "name": "布丁珍珠奶茶",
+        "main_ingredient": "M 500cc / L 660cc",
+        "sugar_level": "標準奶茶甜度",
+        "ingredients": "M: 布丁 150g + 粉圓 1平匙 + 鮮奶 100cc | L: 布丁 200g + 粉圓 1.5平匙 + 鮮奶 150cc",
+        "soup_base": "紅茶補滿",
+        "notes": [
+          "整顆/切片布丁置底，加入珍珠鮮奶與紅茶。"
+        ]
+      },
+      {
+        "name": "薑母茶 (冬季熱品)",
+        "main_ingredient": "M 500cc (專用熱紙杯 + 咖啡推蓋)",
+        "sugar_level": "4分糖",
+        "ingredients": "老薑母塊 1片",
+        "soup_base": "薑汁 9分滿 + 冬瓜茶 1分滿 (薑9 : 冬瓜1甜湯比例)",
+        "notes": [
+          "必須使用M500紙杯加咖啡蓋。冬瓜甜湯中和薑母嗆辣味。"
+        ]
+      },
+      {
+        "name": "薑母鮮奶茶",
+        "main_ingredient": "M 500cc (熱紙杯)",
+        "sugar_level": "薑汁自帶甜度",
+        "ingredients": "鮮奶 100cc",
+        "soup_base": "熱薑汁補滿至標準線",
+        "notes": [
+          "鮮奶 100cc 搭配熱薑汁。"
+        ]
+      }
+    ]
+  },
+  "7": {
+    "title": "加料區標準量、桶子蓋顏色區分與杯子容量",
+    "standard_addon_portions": [
+      {
+        "item": "花生粒",
+        "portion": "1匙 (50g)",
+        "rule": "碎片多時要補足完整顆粒"
+      },
+      {
+        "item": "紅豆粒",
+        "portion": "1匙 (70g)",
+        "rule": "需瀝汁做餐"
+      },
+      {
+        "item": "綠豆粒",
+        "portion": "1匙 (70g)",
+        "rule": "需瀝汁做餐"
+      },
+      {
+        "item": "彎豆粒",
+        "portion": "1匙 (70g)",
+        "rule": "大豆粒"
+      },
+      {
+        "item": "薏仁粒",
+        "portion": "撈1匙薏仁粒",
+        "rule": "撈粒，非帶湯"
+      },
+      {
+        "item": "粉圓",
+        "portion": "1平匙 (60g)",
+        "rule": "當日現煮，不過夜"
+      },
+      {
+        "item": "湯圓",
+        "portion": "1匙 (70g)",
+        "rule": "需瀝乾防甜度增加"
+      },
+      {
+        "item": "芋圓",
+        "portion": "12顆 / 一滿匙 (70g)",
+        "rule": "8顆芋圓 + 4顆地瓜圓"
+      },
+      {
+        "item": "仙草凍",
+        "portion": "1匙 (70g)",
+        "rule": "需瀝仙草汁"
+      },
+      {
+        "item": "芋頭塊",
+        "portion": "4塊 (85g)",
+        "rule": "小塊需補足重量，加淋芋頭汁"
+      },
+      {
+        "item": "紫米",
+        "portion": "1匙 / 80g",
+        "rule": "加熱不可攪拌防散化"
+      },
+      {
+        "item": "土鳳梨",
+        "portion": "1匙 (50g)",
+        "rule": "加淋鳳梨汁"
+      },
+      {
+        "item": "煉乳",
+        "portion": "30g (小碗35cc/大碗50cc)",
+        "rule": "均勻環淋"
+      },
+      {
+        "item": "鮮奶",
+        "portion": "100cc (飲品150~200cc)",
+        "rule": "量杯量測"
+      },
+      {
+        "item": "麵茶粉",
+        "portion": "25g",
+        "rule": "均勻撒開勿成坨"
+      },
+      {
+        "item": "硬花生",
+        "portion": "25g (燒仙草附12g)",
+        "rule": "小袋獨立包裝"
+      },
+      {
+        "item": "豆花 / 布丁 / 抹茶",
+        "portion": "170g (1.5片)",
+        "rule": "標準加料片數"
+      },
+      {
+        "item": "冰淇淋 (香草/抹茶)",
+        "portion": "完整圓度1球",
+        "rule": "冰勺過水轉圈挖取"
+      },
+      {
+        "item": "情人果",
+        "portion": "6片 (完整片)",
+        "rule": "平整排列"
+      },
+      {
+        "item": "燕麥",
+        "portion": "1.5匙",
+        "rule": "均勻鋪放"
+      }
+    ],
+    "barrel_lid_colors": [
+      {
+        "item": "豆花 / 布丁 / 抹茶",
+        "indicator": "無標示",
+        "type": "原色桶蓋"
+      },
+      {
+        "item": "熱豆花原汁",
+        "indicator": "袋子 / 隨機顏色",
+        "type": "套袋區隔"
+      },
+      {
+        "item": "紅豆粒 / 綠豆粒 / 彎豆粒 / 花生粒",
+        "indicator": "無標示",
+        "type": "透明/常態蓋"
+      },
+      {
+        "item": "花生湯 (含粒)",
+        "indicator": "袋子粉色 (撈粒後無袋)",
+        "type": "粉色袋標記"
+      },
+      {
+        "item": "薏仁湯 (含粒)",
+        "indicator": "貼紙 / 藍色",
+        "type": "藍色圓標貼紙"
+      },
+      {
+        "item": "紅豆汁",
+        "indicator": "貼紙 / 紅色",
+        "type": "紅色圓標貼紙"
+      },
+      {
+        "item": "綠豆汁",
+        "indicator": "貼紙 / 綠色",
+        "type": "綠色圓標貼紙"
+      },
+      {
+        "item": "甜湯",
+        "indicator": "貼紙 / 黃色",
+        "type": "黃色圓標貼紙"
+      },
+      {
+        "item": "紅茶",
+        "indicator": "無標示",
+        "type": "常規桶"
+      },
+      {
+        "item": "豆漿",
+        "indicator": "貼紙 / 白色",
+        "type": "白色標記 (冬天必與熱豆花汁分開)"
+      },
+      {
+        "item": "仙草凍 / 燒仙草",
+        "indicator": "貼紙 / 黑色",
+        "type": "黑色圓標貼紙"
+      },
+      {
+        "item": "薑汁",
+        "indicator": "手寫標註 / 薑",
+        "type": "文字標示"
+      },
+      {
+        "item": "豆花用糖膏",
+        "indicator": "手寫標註 / 膏",
+        "type": "文字標示"
+      },
+      {
+        "item": "刨冰用糖膏",
+        "indicator": "手寫標註 / 刨",
+        "type": "文字標示"
+      },
+      {
+        "item": "糖水",
+        "indicator": "貼紙 / 灰色",
+        "type": "灰色標貼"
+      }
+    ],
+    "cup_specifications": [
+      {
+        "name": "豆花專用紙碗",
+        "capacity": "520 cc",
+        "usage": "一般傳統豆花、布丁豆花、仙草凍碗裝外帶"
+      },
+      {
+        "name": "冷熱飲料 M 杯",
+        "capacity": "500 cc",
+        "usage": "中杯飲品、薑母茶熱紙杯專用"
+      },
+      {
+        "name": "冷熱飲料 L 杯",
+        "capacity": "660~700 cc",
+        "usage": "大杯飲品專用杯"
+      },
+      {
+        "name": "刨冰專用小碗",
+        "capacity": "750 cc",
+        "usage": "小碗四種冰、台產鳳梨冰小碗"
+      },
+      {
+        "name": "刨冰專用大碗",
+        "capacity": "900 cc",
+        "usage": "大碗四種冰、風味牛奶大碗冰"
+      },
+      {
+        "name": "外帶瓶裝罐",
+        "capacity": "1000 cc",
+        "usage": "家庭號豆漿、紅茶罐裝"
+      },
+      {
+        "name": "迷你外帶分裝杯",
+        "capacity": "260 cc",
+        "usage": "加購配料另裝、體積較大配料(芋頭/紫米)分裝"
+      },
+      {
+        "name": "迷你外帶推廣杯",
+        "capacity": "390 cc",
+        "usage": "試吃、推廣或特殊活動分裝"
+      }
+    ],
+    "golden_rules": [
+      "加購配料影響黃金比例時 (料變少或湯變少)，一律使用 260cc 迷你杯另裝提供！",
+      "客人更換配料時，必須參照標準加料等值作配換或加價方式說明。",
+      "冬天低溫期，豆漿桶與熱豆花汁之擺放位置務必完全分開，嚴禁混放導致員工誤拿！",
+      "物料管理嚴格遵守'先進先出'原則：新進貨放後方/下方，舊料往前移/放上方。"
+    ]
+  }
+};
+
+    // 系統狀態
+    let currentCategory = 1;
+    let isSearchMode = false;
+    let completedCategories = JSON.parse(localStorage.getItem('sop_completed_cats') || '[]');
+    let traineeProfile = JSON.parse(localStorage.getItem('sop_trainee_profile') || '{"name":"","branch":""}');
+    let gasApiUrl = localStorage.getItem('sop_gas_api_url') || '';
+    let currentQuizQuestions = [];
+    let latestQuizScore = null;
+
+    // 初始化
+    function init() {
+      updateProfileUI();
+      renderCategory(1);
+
+      // 若首次使用，彈出輸入身分對話框
+      if (!traineeProfile.name) {
+        setTimeout(openProfileModal, 600);
+      }
+    }
+
+    // 更新學員資訊列與進度條
+    function updateProfileUI() {
+      const nameEl = document.getElementById('traineeNameDisplay');
+      const branchEl = document.getElementById('traineeBranchDisplay');
+      const progressTextEl = document.getElementById('traineeProgressText');
+      const progressFillEl = document.getElementById('progressBarFill');
+
+      nameEl.innerText = traineeProfile.name ? `學員：${traineeProfile.name}` : '學員：未設定';
+      branchEl.innerText = traineeProfile.branch ? traineeProfile.branch : '點此設定門市';
+
+      const count = completedCategories.length;
+      const pct = Math.round((count / 7) * 100);
+      progressTextEl.innerText = `進度 ${pct}% (${count}/7)`;
+      progressFillEl.style.width = `${pct}%`;
+
+      // 更新 Tab 上的勾勾
+      for (let i = 1; i <= 7; i++) {
+        const tab = document.getElementById(`tabBtn${i}`);
+        if (completedCategories.includes(i)) {
+          tab.classList.add('completed');
+        } else {
+          tab.classList.remove('completed');
+        }
+      }
+    }
+
+    // 切換分類
+    function switchCategory(catId) {
+      if (!sopData) return;
+      isSearchMode = false;
+      document.getElementById('searchInput').value = '';
+      document.getElementById('clearSearchBtn').style.display = 'none';
+      currentCategory = catId;
+
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach((btn, idx) => {
+        if (idx + 1 === catId) {
+          btn.classList.add('active');
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      renderCategory(catId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 渲染特定分類
+    function renderCategory(catId) {
+      const container = document.getElementById('contentContainer');
+      const cat = sopData[catId];
+      if (!cat) return;
+
+      const isCompleted = completedCategories.includes(catId);
+
+      if (catId <= 6) {
+        let html = `
+          <div class="cat-hero">
+            <h2>🏷️ ${cat.title}</h2>
+            <div class="cat-hero-rule"><strong>⚖️ 核心比例：</strong>${cat.core_ratio}</div>
+            <div class="cat-hero-seq">
+              <span>👉</span>
+              <span><strong>製作流程：</strong>${cat.prep_sequence}</span>
+            </div>
+          </div>
+        `;
+
+        cat.items.forEach(item => {
+          html += `
+            <div class="item-card">
+              <div class="item-header">
+                <h3 class="item-title">${item.name}</h3>
+                <span class="item-sugar-badge">${item.sugar_level}</span>
+              </div>
+              <div class="item-specs">
+                <div class="spec-row">
+                  <span class="spec-label label-main">主料規格</span>
+                  <span class="spec-val"><strong>${item.main_ingredient}</strong></span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label label-ing">標準配料</span>
+                  <span class="spec-val">${item.ingredients}</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label label-soup">搭配湯底</span>
+                  <span class="spec-val">${item.soup_base}</span>
+                </div>
+              </div>
+              ${item.notes && item.notes.length > 0 ? `
+                <div class="item-notes">
+                  <strong>💡 製作要點提醒：</strong>
+                  <ul>
+                    ${item.notes.map(n => `<li>${n}</li>`).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+
+        if (cat.golden_rules && cat.golden_rules.length > 0) {
+          html += `
+            <div class="rules-section">
+              <div class="rules-title">⚠️ 本系列核心防呆規範</div>
+              <ul class="rules-list">
+                ${cat.golden_rules.map(r => `<li>${r}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+
+        // 底部打卡按鈕
+        html += `
+          <div class="completion-box">
+            <button class="completion-btn ${isCompleted ? 'btn-done' : 'btn-not-done'}" onclick="toggleCategoryCompletion(${catId})">
+              <span>${isCompleted ? '✅ 本系列已完成研讀 (點擊取消)' : '📌 標記【' + cat.title + '】已完成研讀'}</span>
+            </button>
+          </div>
+        `;
+
+        container.innerHTML = html;
+      } else if (catId === 7) {
+        let html = `
+          <div class="cat-hero">
+            <h2>🏷️ ${cat.title}</h2>
+            <div class="cat-hero-rule">嚴守「先進先出」原則，加購配料影響比例時一律使用 260cc 迷你杯另裝。</div>
+          </div>
+
+          <h3 style="margin: 16px 0 8px 4px; font-size: 1rem; color: var(--text-main);">🥄 一、 加料區單份標準克數 / 比例</h3>
+          <div class="addon-grid">
+            ${cat.standard_addon_portions.map(a => `
+              <div class="addon-card">
+                <div class="addon-name">${a.item}</div>
+                <div class="addon-portion">${a.portion}</div>
+                <div class="addon-rule">${a.rule}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <h3 style="margin: 22px 0 8px 4px; font-size: 1rem; color: var(--text-main);">🎨 二、 桶子蓋標示顏色與標籤</h3>
+          <div class="lid-list">
+            ${cat.barrel_lid_colors.map(b => {
+              let dotColor = '#cbd5e1';
+              if (b.indicator.includes('藍')) dotColor = '#3b82f6';
+              else if (b.indicator.includes('紅')) dotColor = '#ef4444';
+              else if (b.indicator.includes('綠')) dotColor = '#22c55e';
+              else if (b.indicator.includes('黃')) dotColor = '#eab308';
+              else if (b.indicator.includes('白')) dotColor = '#f8fafc';
+              else if (b.indicator.includes('黑')) dotColor = '#0f172a';
+              else if (b.indicator.includes('粉')) dotColor = '#ec4899';
+              else if (b.indicator.includes('灰')) dotColor = '#64748b';
+
+              return `
+                <div class="lid-item">
+                  <div>
+                    <span class="color-dot" style="background: ${dotColor};"></span>
+                    <strong>${b.item}</strong>
+                  </div>
+                  <div style="font-weight: 600; color: var(--primary);">${b.indicator}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <h3 style="margin: 22px 0 8px 4px; font-size: 1rem; color: var(--text-main);">🥤 三、 外帶杯與專用紙碗容量規格</h3>
+          <div class="cup-list">
+            ${cat.cup_specifications.map(c => `
+              <div class="lid-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                  <strong>${c.name}</strong>
+                  <span style="color: var(--primary); font-weight: 700;">${c.capacity}</span>
+                </div>
+                <div style="font-size: 0.78rem; color: #64748b;">用途：${c.usage}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="rules-section" style="margin-top: 20px;">
+            <div class="rules-title">⚠️ 備料管理與安全原則</div>
+            <ul class="rules-list">
+              ${cat.golden_rules.map(r => `<li>${r}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="completion-box">
+            <button class="completion-btn ${isCompleted ? 'btn-done' : 'btn-not-done'}" onclick="toggleCategoryCompletion(7)">
+              <span>${isCompleted ? '✅ 本系列已完成研讀 (點擊取消)' : '📌 標記【加料與規格】已研讀完成'}</span>
+            </button>
+          </div>
+        `;
+        container.innerHTML = html;
+      }
+    }
+
+    // 打卡切換完成狀態
+    function toggleCategoryCompletion(catId) {
+      const idx = completedCategories.indexOf(catId);
+      let actionName = "";
+      if (idx > -1) {
+        completedCategories.splice(idx, 1);
+        actionName = "取消標記研讀";
+      } else {
+        completedCategories.push(catId);
+        actionName = "完成章節研讀";
+      }
+
+      localStorage.setItem('sop_completed_cats', JSON.stringify(completedCategories));
+      updateProfileUI();
+      renderCategory(catId);
+
+      // 同步回傳至 Google Sheet
+      const catTitle = sopData[catId].title;
+      const count = completedCategories.length;
+      const pct = Math.round((count / 7) * 100);
+
+      sendPayloadToSheet({
+        student_name: traineeProfile.name || "未登錄",
+        store_branch: traineeProfile.branch || "未指定",
+        action: actionName,
+        category: catTitle,
+        score: "-",
+        progress: `${pct}% (${count}/7)`,
+        notes: `學員點擊了【${catTitle}】完成按鈕`
+      });
+
+      showToast(`已更新【${catTitle}】研讀進度！`);
+    }
+
+    // 搜尋功能
+    function handleSearch() {
+      const kw = document.getElementById('searchInput').value.trim().toLowerCase();
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (!kw) {
+        clearBtn.style.display = 'none';
+        if (isSearchMode) switchCategory(currentCategory);
+        return;
+      }
+      clearBtn.style.display = 'block';
+      isSearchMode = true;
+
+      const container = document.getElementById('contentContainer');
+      let matches = [];
+
+      for (let i = 1; i <= 6; i++) {
+        const cat = sopData[i];
+        cat.items.forEach(it => {
+          if (it.name.toLowerCase().includes(kw) ||
+              it.ingredients.toLowerCase().includes(kw) ||
+              it.soup_base.toLowerCase().includes(kw) ||
+              it.main_ingredient.toLowerCase().includes(kw)) {
+            matches.push({ catTitle: cat.title, item: it });
+          }
+        });
+      }
+
+      const add7 = sopData[7].standard_addon_portions.filter(a => a.item.toLowerCase().includes(kw));
+
+      if (matches.length === 0 && add7.length === 0) {
+        container.innerHTML = `<div class="no-result">🔍 找不到包含「<strong>${kw}</strong>」的品項或配料，請嘗試更簡短的關鍵字。</div>`;
+        return;
+      }
+
+      let html = `<div style="font-size: 0.88rem; color: #64748b; margin-bottom: 12px;">🔍 搜尋「<strong>${kw}</strong>」找到 ${matches.length + add7.length} 筆結果：</div>`;
+
+      matches.forEach(m => {
+        const it = m.item;
+        html += `
+          <div class="item-card">
+            <div style="font-size: 0.75rem; color: var(--primary); font-weight: 700; margin-bottom: 4px;">【${m.catTitle}】</div>
+            <div class="item-header">
+              <h3 class="item-title">${it.name}</h3>
+              <span class="item-sugar-badge">${it.sugar_level}</span>
+            </div>
+            <div class="item-specs">
+              <div class="spec-row">
+                <span class="spec-label label-main">主料規格</span>
+                <span class="spec-val"><strong>${it.main_ingredient}</strong></span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label label-ing">標準配料</span>
+                <span class="spec-val">${it.ingredients}</span>
+              </div>
+              <div class="spec-row">
+                <span class="spec-label label-soup">搭配湯底</span>
+                <span class="spec-val">${it.soup_base}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      if (add7.length > 0) {
+        html += `<h4 style="margin: 16px 0 8px 0; font-size: 0.95rem;">【加料區符合項目】</h4>`;
+        add7.forEach(a => {
+          html += `
+            <div class="addon-card" style="margin-bottom: 6px;">
+              <div class="addon-name">${a.item}</div>
+              <div class="addon-portion">${a.portion}</div>
+              <div class="addon-rule">${a.rule}</div>
+            </div>
+          `;
+        });
+      }
+
+      container.innerHTML = html;
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('clearSearchBtn').style.display = 'none';
+      switchCategory(currentCategory);
+    }
+
+    // ==========================================
+    // 隨堂測驗系統 (選擇題模式)
+    // ==========================================
+    const quizQuestionBank = [
+      {
+        q: "綜合豆花的黃金比例為何？做餐標準順序為何？",
+        options: [
+          "比例 1:1:1；順序：豆花 ➔ 糖膏 ➔ 配料 ➔ 碎冰 ➔ 湯底",
+          "比例 2:1:1；順序：配料 ➔ 豆花 ➔ 糖膏 ➔ 湯底",
+          "比例 1:2:1；順序：豆花 ➔ 配料 ➔ 碎冰 ➔ 糖膏",
+          "比例 1:1:2；順序：碎冰 ➔ 豆花 ➔ 糖膏 ➔ 湯底"
+        ],
+        ans: 0
+      },
+      {
+        q: "紅豆豆花與綠豆豆花的標準豆花克數與豆粒重量為多少？",
+        options: [
+          "豆花 170g，豆粒 100g",
+          "豆花 200g (2片)，豆粒 140g (2匙)",
+          "豆花 220g (2.5片)，豆粒 180g (2.5匙)",
+          "豆花 250g (3片)，豆粒 200g (3匙)"
+        ],
+        ans: 1
+      },
+      {
+        q: "客人要求加冰時，少冰、加冰、多冰分別應追加多少糖膏？",
+        options: [
+          "少冰+1分糖、加冰+2分糖、多冰+3分糖",
+          "少冰+2分糖、加冰+4分糖、多冰+6分糖",
+          "少冰不補糖、加冰+3分糖、多冰+5分糖",
+          "少冰+3分糖、加冰+6分糖、多冰+9分糖"
+        ],
+        ans: 1
+      },
+      {
+        q: "花生薏仁的花生粒標準份量是多少？與花生豆花有何不同？",
+        options: [
+          "花生薏仁 1匙(50g)，與花生豆花相同",
+          "花生薏仁 1.5匙(70g)；花生豆花為 1匙(50g)",
+          "花生薏仁 2匙(100g)；花生豆花為 1.5匙(70g)",
+          "花生薏仁 2.5匙(120g)；花生豆花為 2匙(100g)"
+        ],
+        ans: 1
+      },
+      {
+        q: "刨冰系列小碗(750)與大碗(900)的內用與外帶標準糖膏匙數各是多少？",
+        options: [
+          "小碗 2/1匙，大碗 3/2匙",
+          "小碗 內用2.5/外帶1.5匙；大碗 內用3.5/外帶2.5匙",
+          "小碗 內用3/外帶2匙；大碗 內用4/外帶3匙",
+          "內用與外帶匙數相同，均為3匙"
+        ],
+        ans: 1
+      },
+      {
+        q: "湯芋圓 / 甜湯系列做餐之順序鐵則為何？",
+        options: [
+          "圓類 ➔ 豆類 ➔ 湯底 ➔ 糖膏",
+          "豆類 ➔ 圓類 ➔ 糖膏 ➔ 湯底 (嚴禁先加圓類)",
+          "糖膏 ➔ 圓類 ➔ 豆類 ➔ 湯底",
+          "湯底 ➔ 豆類 ➔ 圓類 ➔ 糖膏"
+        ],
+        ans: 1
+      },
+      {
+        q: "仙草凍的標準切法尺寸為何？冬天可否放入熱品？",
+        options: [
+          "隨機切碎；冬天可用於熱品",
+          "橫切縱切井字間距約2cm，大勺起厚度2cm；冬天仙草凍絕不入熱品",
+          "切片1cm；冬天可微波加熱使用",
+          "切大塊5cm；冬天依客人要求可加入熱品"
+        ],
+        ans: 1
+      },
+      {
+        q: "桶蓋顏色標示中：薏仁湯、紅豆汁、綠豆汁、甜湯的貼紙顏色分別為何？",
+        options: [
+          "薏仁:藍色 | 紅豆:紅色 | 綠豆:綠色 | 甜湯:黃色",
+          "薏仁:黃色 | 紅豆:紅色 | 綠豆:藍色 | 甜湯:白色",
+          "薏仁:白色 | 紅豆:粉色 | 綠豆:綠色 | 甜湯:灰色",
+          "全系列均為無標示原色桶蓋"
+        ],
+        ans: 0
+      },
+      {
+        q: "客人加購配料時，若會影響黃金比例(料變少/湯變少)，應如何處置？",
+        options: [
+          "直接塞入原碗中",
+          "一律改以 260cc 迷你外帶分裝杯另裝提供",
+          "改用 750cc 大碗裝",
+          "拒絕客人加購配料要求"
+        ],
+        ans: 1
+      },
+      {
+        q: "飲品豆漿與豆漿豆花的糖度各是多少分糖？",
+        options: [
+          "飲品豆漿 12分糖；豆漿豆花 16分糖",
+          "飲品豆漿 M杯為 16分糖；豆漿豆花為 12分糖",
+          "兩者皆為 8分糖",
+          "飲品豆漿 24分糖；豆漿豆花 18分糖"
+        ],
+        ans: 1
+      }
+    ];
+
+    function openQuiz() {
+      const modal = document.getElementById('quizModal');
+      const container = document.getElementById('quizQuestionsContainer');
+      const resultCard = document.getElementById('quizResultCard');
+      const submitBtn = document.getElementById('submitQuizBtn');
+
+      resultCard.style.display = 'none';
+      submitBtn.style.display = 'block';
+
+      // 隨機抽選 5 題
+      currentQuizQuestions = [...quizQuestionBank].sort(() => 0.5 - Math.random()).slice(0, 5);
+
+      let html = '';
+      currentQuizQuestions.forEach((qItem, qIdx) => {
+        html += `
+          <div class="quiz-question-box" id="qBox${qIdx}">
+            <div class="quiz-q-title">Q${qIdx + 1}. ${qItem.q}</div>
+            <div class="quiz-options">
+              ${qItem.options.map((opt, oIdx) => `
+                <div class="quiz-option-label" onclick="selectQuizOption(${qIdx}, ${oIdx})" id="opt_${qIdx}_${oIdx}">
+                  <input type="radio" name="quiz_q_${qIdx}" value="${oIdx}" style="margin: 0; pointer-events: none;">
+                  <span>${opt}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      modal.style.display = 'flex';
+    }
+
+    function selectQuizOption(qIdx, oIdx) {
+      const parent = document.getElementById(`qBox${qIdx}`);
+      const options = parent.querySelectorAll('.quiz-option-label');
+      options.forEach((opt, idx) => {
+        const radio = opt.querySelector('input');
+        if (idx === oIdx) {
+          opt.classList.add('selected');
+          radio.checked = true;
+        } else {
+          opt.classList.remove('selected');
+          radio.checked = false;
+        }
+      });
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+      let unanswered = 0;
+
+      currentQuizQuestions.forEach((qItem, qIdx) => {
+        const parent = document.getElementById(`qBox${qIdx}`);
+        const checked = parent.querySelector('input:checked');
+        if (!checked) {
+          unanswered++;
+        }
+      });
+
+      if (unanswered > 0) {
+        alert(`您還有 ${unanswered} 題尚未作答，請完成後再交卷！`);
+        return;
+      }
+
+      // 計算得分與標示對錯
+      currentQuizQuestions.forEach((qItem, qIdx) => {
+        const parent = document.getElementById(`qBox${qIdx}`);
+        const checked = parent.querySelector('input:checked');
+        const userChoice = parseInt(checked.value);
+
+        const options = parent.querySelectorAll('.quiz-option-label');
+        options.forEach((opt, oIdx) => {
+          opt.style.pointerEvents = 'none'; // 鎖定
+          if (oIdx === qItem.ans) {
+            opt.classList.add('correct');
+          }
+          if (oIdx === userChoice && userChoice !== qItem.ans) {
+            opt.classList.add('wrong');
+          }
+        });
+
+        if (userChoice === qItem.ans) {
+          score += 20;
+        }
+      });
+
+      latestQuizScore = score;
+      document.getElementById('submitQuizBtn').style.display = 'none';
+
+      const resultCard = document.getElementById('quizResultCard');
+      const scoreText = document.getElementById('quizScoreText');
+      const feedbackText = document.getElementById('quizFeedbackText');
+
+      scoreText.innerText = `${score} 分`;
+      if (score === 100) {
+        scoreText.style.color = '#16a34a';
+        feedbackText.innerText = '太優秀了！完美答對全部 5 題！🎉';
+      } else if (score >= 80) {
+        scoreText.style.color = '#ea580c';
+        feedbackText.innerText = '及格通過！部分細節可再看手冊確認喔！👍';
+      } else {
+        scoreText.style.color = '#dc2626';
+        feedbackText.innerText = '尚未達標，建議回到對應系列加強複習再測驗！💪';
+      }
+
+      resultCard.style.display = 'block';
+      resultCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function syncScoreToSheet() {
+      if (latestQuizScore === null) return;
+
+      const count = completedCategories.length;
+      const pct = Math.round((count / 7) * 100);
+
+      sendPayloadToSheet({
+        student_name: traineeProfile.name || "未登錄",
+        store_branch: traineeProfile.branch || "未指定",
+        action: "隨堂考核測驗",
+        category: "綜合隨機測驗",
+        score: `${latestQuizScore} 分 (${latestQuizScore / 20}/5題)`,
+        progress: `${pct}% (${count}/7)`,
+        notes: latestQuizScore >= 80 ? "合格過關" : "需再次複習"
+      });
+
+      const syncBtn = document.getElementById('syncScoreBtn');
+      syncBtn.innerHTML = '<span>✅ 成績已成功上傳試算表！</span>';
+      syncBtn.style.background = '#047857';
+      syncBtn.style.pointerEvents = 'none';
+      showToast('測驗成績已同步至管理人員 Google 試算表！');
+    }
+
+    function closeQuiz() {
+      document.getElementById('quizModal').style.display = 'none';
+    }
+
+    // ==========================================
+    // 學員身分與設定 Modal
+    // ==========================================
+    function openProfileModal() {
+      document.getElementById('inputStudentName').value = traineeProfile.name || '';
+      document.getElementById('inputStoreBranch').value = traineeProfile.branch || '';
+      document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').style.display = 'none';
+    }
+
+    function saveProfile() {
+      const name = document.getElementById('inputStudentName').value.trim();
+      const branch = document.getElementById('inputStoreBranch').value.trim();
+      if (!name) {
+        alert('請輸入學員姓名！');
+        return;
+      }
+      traineeProfile = { name: name, branch: branch || '門市部' };
+      localStorage.setItem('sop_trainee_profile', JSON.stringify(traineeProfile));
+      updateProfileUI();
+      closeProfileModal();
+      showToast(`已儲存學員：${name} (${traineeProfile.branch})`);
+
+      // 登錄時回傳一筆「登入建立」
+      const count = completedCategories.length;
+      const pct = Math.round((count / 7) * 100);
+      sendPayloadToSheet({
+        student_name: traineeProfile.name,
+        store_branch: traineeProfile.branch,
+        action: "登入系統",
+        category: "-",
+        score: "-",
+        progress: `${pct}% (${count}/7)`,
+        notes: "首次綁定或更新學員資料"
+      });
+    }
+
+    function openSettings() {
+      document.getElementById('inputApiUrl').value = gasApiUrl;
+      document.getElementById('settingsModal').style.display = 'flex';
+    }
+
+    function closeSettings() {
+      document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function saveSettings() {
+      const url = document.getElementById('inputApiUrl').value.trim();
+      gasApiUrl = url;
+      localStorage.setItem('sop_gas_api_url', url);
+      closeSettings();
+      showToast('已更新 Google 試算表 API 網址！');
+    }
+
+    function resetAllProgress() {
+      if (confirm('確定要清除所有研讀打卡進度嗎？（這不會影響已上傳至 Google 試算表的歷史紀錄）')) {
+        completedCategories = [];
+        localStorage.removeItem('sop_completed_cats');
+        updateProfileUI();
+        renderCategory(currentCategory);
+        closeSettings();
+        showToast('已重設研讀進度');
+      }
+    }
+
+    // ==========================================
+    // Google Sheets API 同步函式
+    // ==========================================
+    function sendPayloadToSheet(payload) {
+      if (!gasApiUrl) {
+        console.warn('尚未設定 Google Apps Script Web App 網址，已先儲存於手機本機。');
+        return;
+      }
+
+      try {
+        fetch(gasApiUrl, {
+          method: 'POST',
+          mode: 'no-cors', // 繞過跨域直接回傳寫入
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(() => {
+          console.log('已發送資料至 Google 試算表：', payload);
+        }).catch(err => {
+          console.error('發送至 Google 試算表失敗：', err);
+        });
+      } catch (e) {
+        console.error('發送例外：', e);
+      }
+    }
+
+    // 浮動提示框
+    function showToast(msg) {
+      const toast = document.getElementById('toastBox');
+      const msgEl = document.getElementById('toastMsg');
+      msgEl.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2600);
+    }
+
+    // 啟動程式
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
