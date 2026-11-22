@@ -57,97 +57,90 @@
       color: var(--primary);
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
     .header-actions {
       display: flex;
+      gap: 8px;
       align-items: center;
-      gap: 6px;
     }
     .quiz-btn {
-      background: var(--primary);
+      background: linear-gradient(135deg, #ea580c, #c2410c);
       color: white;
       border: none;
-      padding: 5px 11px;
-      border-radius: 18px;
-      font-size: 0.78rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
       font-weight: 700;
-      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+    }
+    .quiz-btn:active {
+      transform: scale(0.97);
     }
     .settings-icon-btn {
       background: #f1f5f9;
-      border: 1px solid var(--border);
-      color: #64748b;
-      padding: 5px 8px;
-      border-radius: 18px;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
       font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
-    /* 學員進度指示條 */
+    /* 學員狀態列 */
     .trainee-bar {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 6px 10px;
-      margin-bottom: 6px;
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--primary-light);
+      border-radius: 10px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+      color: var(--primary-dark);
       cursor: pointer;
     }
-    .trainee-info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.78rem;
-    }
-    .trainee-name-tag {
-      font-weight: 700;
-      color: #1e293b;
+    .trainee-info {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      font-weight: 600;
     }
-    .trainee-progress-text {
+    .trainee-progress-badge {
+      background: white;
+      padding: 2px 8px;
+      border-radius: 12px;
       font-weight: 700;
+      font-size: 0.75rem;
       color: var(--primary);
-    }
-    .progress-track {
-      width: 100%;
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #ea580c, #16a34a);
-      width: 0%;
-      transition: width 0.3s ease;
+      border: 1px solid #fed7aa;
     }
 
-    /* 搜尋欄 */
-    .search-bar {
+    /* 搜尋欄位 */
+    .search-box {
       position: relative;
-      margin-bottom: 2px;
+      margin-top: 2px;
     }
     .search-input {
       width: 100%;
-      padding: 8px 12px 8px 34px;
-      font-size: 0.9rem;
+      padding: 7px 12px 7px 32px;
+      font-size: 0.86rem;
       border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: #f1f5f9;
+      border-radius: 20px;
+      background: #f8fafc;
       outline: none;
       transition: all 0.2s;
     }
     .search-input:focus {
-      background: #ffffff;
       border-color: var(--primary);
+      background: #ffffff;
       box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15);
     }
     .search-icon {
@@ -155,74 +148,77 @@
       left: 10px;
       top: 50%;
       transform: translateY(-50%);
-      color: #94a3b8;
       font-size: 0.85rem;
+      color: var(--text-sub);
     }
-    .clear-search {
+    .clear-search-btn {
       position: absolute;
       right: 10px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
-      font-size: 1.1rem;
       color: #94a3b8;
+      font-size: 0.9rem;
       display: none;
       cursor: pointer;
     }
 
-    /* 橫向滑動分類 Tab */
+    /* 七大分類橫向滑動 Tab */
     .tab-container {
       display: flex;
-      gap: 8px;
       overflow-x: auto;
-      padding: 8px 14px;
       background: #ffffff;
       border-bottom: 1px solid var(--border);
+      padding: 6px 10px;
+      gap: 6px;
       scrollbar-width: none;
+      position: sticky;
+      top: 106px;
+      z-index: 40;
     }
-    .tab-container::-webkit-scrollbar { display: none; }
+    .tab-container::-webkit-scrollbar {
+      display: none;
+    }
     .tab-btn {
-      flex: 0 0 auto;
-      padding: 6px 13px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      border-radius: 18px;
+      white-space: nowrap;
+      padding: 6px 12px;
+      border-radius: 16px;
       border: 1px solid var(--border);
       background: #f8fafc;
+      font-size: 0.82rem;
+      font-weight: 600;
       color: var(--text-sub);
       cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
       display: flex;
       align-items: center;
       gap: 4px;
+      transition: all 0.2s;
+      flex-shrink: 0;
     }
     .tab-btn.active {
       background: var(--primary);
-      color: #ffffff;
+      color: white;
       border-color: var(--primary);
-      box-shadow: 0 2px 4px rgba(194, 65, 12, 0.25);
+      font-weight: 700;
     }
     .tab-check {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       display: none;
     }
     .tab-btn.completed .tab-check {
       display: inline;
     }
 
-    /* 容器區塊 */
+    /* 主內容區 */
     main {
       padding: 12px 14px;
-      max-width: 600px;
-      margin: 0 auto;
     }
 
-    /* 大類頂部橫幅 */
+    /* 分類大綱英雄卡 */
     .cat-hero {
       background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-      border: 1px solid #fed7aa;
+      border: 1.5px solid #fed7aa;
       border-radius: 14px;
       padding: 12px 14px;
       margin-bottom: 14px;
@@ -237,22 +233,20 @@
     }
     .cat-hero-rule {
       font-size: 0.82rem;
-      color: #7c2d12;
-      line-height: 1.45;
-      margin-top: 4px;
+      color: #9a3412;
+      line-height: 1.4;
+      margin-bottom: 6px;
     }
     .cat-hero-seq {
-      background: #ffffff;
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.7);
       padding: 6px 10px;
-      margin-top: 8px;
+      border-radius: 8px;
       font-size: 0.8rem;
-      color: #9a3412;
-      font-weight: 600;
+      color: #7c2d12;
       display: flex;
-      align-items: center;
-      gap: 6px;
-      border-left: 3px solid var(--primary);
+      align-items: flex-start;
+      gap: 4px;
+      line-height: 1.35;
     }
 
     /* 品項卡片 */
@@ -263,7 +257,7 @@
       padding: 14px;
       margin-bottom: 12px;
       box-shadow: var(--shadow-sm);
-      transition: transform 0.1s, box-shadow 0.1s;
+      transition: transform 0.1s;
     }
     .item-header {
       display: flex;
@@ -274,114 +268,171 @@
       padding-bottom: 8px;
     }
     .item-title {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text-main);
       margin: 0;
     }
     .item-sugar-badge {
-      font-size: 0.78rem;
+      background: #fef3c7;
+      color: var(--badge-sugar);
+      font-size: 0.75rem;
       font-weight: 700;
       padding: 3px 8px;
-      border-radius: 12px;
-      background: #fef3c7;
-      color: #b45309;
-      border: 1px solid #fde68a;
+      border-radius: 6px;
       white-space: nowrap;
+      border: 1px solid #fde68a;
     }
 
-    /* 規格網格 */
+    /* 規格條目 */
     .item-specs {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 6px;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
+      margin-bottom: 8px;
     }
     .spec-row {
       display: flex;
       align-items: baseline;
-      gap: 8px;
-      line-height: 1.4;
+      gap: 6px;
     }
     .spec-label {
-      flex: 0 0 68px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       padding: 2px 6px;
-      border-radius: 6px;
-      text-align: center;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
-    .label-main { background: #e0e7ff; color: #3730a3; }
-    .label-ing { background: #dcfce7; color: #166534; }
-    .label-soup { background: #e0f2fe; color: #0369a1; }
+    .label-main { background: #e0e7ff; color: var(--badge-main); }
+    .label-ing { background: #dcfce7; color: var(--badge-prep); }
+    .label-soup { background: #e0f2fe; color: var(--badge-soup); }
     .spec-val {
-      flex: 1;
-      color: #334155;
+      color: var(--text-sub);
+      line-height: 1.35;
     }
 
-    /* 製作要點提醒 */
+    /* 特別提醒 Notes */
     .item-notes {
-      margin-top: 10px;
-      padding: 8px 10px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border-left: 3px solid #cbd5e1;
+      background: #fffbeb;
+      border-left: 3px solid #f59e0b;
+      padding: 6px 10px;
+      border-radius: 4px;
       font-size: 0.78rem;
-      color: #475569;
+      color: #92400e;
+      margin-top: 8px;
       line-height: 1.4;
     }
     .item-notes ul {
-      margin: 0;
+      margin: 2px 0 0 0;
       padding-left: 16px;
     }
 
-    /* 防呆守則折疊區塊 */
+    /* 防呆核心規範區塊 */
     .rules-section {
-      background: #fffbeb;
-      border: 1px solid #fef3c7;
-      border-radius: 12px;
-      padding: 12px;
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: 14px;
+      padding: 14px;
       margin-top: 16px;
+      box-shadow: var(--shadow-sm);
     }
     .rules-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #92400e;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-bottom: 6px;
     }
     .rules-list {
       margin: 0;
       padding-left: 18px;
-      font-size: 0.8rem;
-      color: #78350f;
+      font-size: 0.82rem;
+      color: var(--text-sub);
       line-height: 1.5;
     }
+    .rules-list li {
+      margin-bottom: 6px;
+    }
 
-    /* 大類底部完成學習打卡按鈕 */
-    .completion-box {
-      margin-top: 24px;
-      padding: 16px;
+    /* 加料區規格樣式 */
+    .addon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .addon-card {
       background: #ffffff;
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
       box-shadow: var(--shadow-sm);
+    }
+    .addon-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+    .addon-portion {
+      font-size: 0.82rem;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .addon-rule {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+    }
+
+    .lid-list, .cup-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .lid-item {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.84rem;
+    }
+    .color-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+      border: 1px solid rgba(0,0,0,0.15);
+      vertical-align: middle;
+    }
+
+    /* 底部打卡與測驗按鈕組 */
+    .completion-box {
+      margin-top: 18px;
+      text-align: center;
     }
     .completion-btn {
       width: 100%;
       padding: 12px;
+      border-radius: 14px;
       font-size: 0.95rem;
       font-weight: 700;
-      border-radius: 12px;
-      border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      border: none;
+      box-shadow: var(--shadow);
       transition: all 0.2s;
     }
     .btn-not-done {
@@ -389,121 +440,166 @@
       color: white;
     }
     .btn-done {
-      background: #ecfdf5;
-      color: #065f46;
-      border: 1.5px solid #a7f3d0;
+      background: #dcfce7;
+      color: #15803d;
+      border: 1.5px solid #86efac;
     }
-
-    /* 模組 7 特殊佈局 (加料區、桶蓋色標、杯型) */
-    .addon-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-    }
-    .addon-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px;
-      font-size: 0.82rem;
-    }
-    .addon-name {
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 2px;
-    }
-    .addon-portion {
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 0.86rem;
-    }
-    .addon-rule {
-      color: #64748b;
-      font-size: 0.74rem;
-      margin-top: 2px;
-    }
-
-    .lid-list, .cup-list {
+    
+    .category-quiz-bottom-box {
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 8px;
     }
-    .lid-item {
+    .btn-unit-quiz {
+      width: 100%;
+      padding: 12px;
+      background: #ffffff;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 0.85rem;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
     }
-    .color-dot {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      margin-right: 6px;
-      vertical-align: middle;
-      border: 1px solid rgba(0,0,0,0.15);
+    .btn-unit-quiz:active {
+      background: var(--primary-light);
     }
-
-    /* 彈窗樣式 (Quiz & Profile & Settings) */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(4px);
-      z-index: 100;
-      display: none;
+    .btn-final-quiz {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      gap: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-final-quiz:active {
+      transform: scale(0.98);
+    }
+
+    /* 彈出視窗通用樣式 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      z-index: 100;
+      align-items: flex-end;
+      justify-content: center;
     }
     .modal-box {
       background: #ffffff;
-      border-radius: 18px;
-      max-width: 480px;
       width: 100%;
+      max-width: 500px;
       max-height: 88vh;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2);
-      overflow: hidden;
+      box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.25s ease-out;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
     }
     .modal-header {
       padding: 14px 18px;
-      background: var(--primary);
-      color: white;
+      border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .modal-title { font-weight: 700; font-size: 1.05rem; }
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
     .close-btn {
-      background: none;
+      background: #f1f5f9;
       border: none;
-      color: white;
-      font-size: 1.3rem;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 1rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
     }
     .modal-body {
-      padding: 18px;
+      padding: 16px 18px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* 測驗模式選擇卡片 */
+    .quiz-choice-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .quiz-choice-card:hover, .quiz-choice-card:active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+    .quiz-choice-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .quiz-choice-info {
+      flex-grow: 1;
+    }
+    .quiz-choice-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .quiz-choice-desc {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      line-height: 1.4;
     }
 
     /* 測驗題目樣式 */
     .quiz-question-box {
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed var(--border);
     }
     .quiz-q-title {
-      font-weight: 700;
       font-size: 0.95rem;
+      font-weight: 700;
       color: var(--text-main);
       margin-bottom: 10px;
       line-height: 1.45;
@@ -514,31 +610,27 @@
       gap: 8px;
     }
     .quiz-option-label {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.86rem;
+      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 12px;
-      background: #ffffff;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-size: 0.86rem;
-      color: #334155;
-      cursor: pointer;
       transition: all 0.15s;
-    }
-    .quiz-option-label:active {
-      background: #f1f5f9;
     }
     .quiz-option-label.selected {
       border-color: var(--primary);
-      background: #fff7ed;
+      background: var(--primary-light);
       color: var(--primary-dark);
       font-weight: 600;
     }
     .quiz-option-label.correct {
       border-color: #22c55e;
       background: #f0fdf4;
-      color: #166534;
+      color: #15803d;
       font-weight: 700;
     }
     .quiz-option-label.wrong {
@@ -643,9 +735,9 @@
 
     .no-result {
       text-align: center;
-      padding: 40px 20px;
+      padding: 30px 10px;
       color: #94a3b8;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
@@ -658,7 +750,7 @@
         <span>🥣 統元豆花 SOP 學習系統</span>
       </div>
       <div class="header-actions">
-        <button class="quiz-btn" onclick="openQuiz()">
+        <button class="quiz-btn" onclick="openQuizChooser()">
           <span>🎓 考核隨堂考</span>
         </button>
         <button class="settings-icon-btn" onclick="openSettings()" title="設定">
@@ -669,24 +761,20 @@
 
     <!-- 學員資訊與進度指示條 -->
     <div class="trainee-bar" onclick="openProfileModal()">
-      <div class="trainee-info-row">
-        <span class="trainee-name-tag">
-          👤 <span id="traineeNameDisplay">學員：未登錄</span>
-          <span style="color:#94a3b8; font-weight:normal;">|</span>
-          <span id="traineeBranchDisplay">點此設定門市</span>
-        </span>
-        <span class="trainee-progress-text" id="traineeProgressText">進度 0% (0/7)</span>
+      <div class="trainee-info">
+        <span>👤</span>
+        <span id="traineeNameDisplay">點此登錄學員身分</span>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progressBarFill"></div>
+      <div class="trainee-progress-badge" id="traineeProgressDisplay">
+        研讀進度 0/7
       </div>
     </div>
 
-    <!-- 搜尋欄 -->
-    <div class="search-bar">
+    <!-- 關鍵字搜尋框 -->
+    <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" class="search-input" placeholder="輸入品名、配料或規格 (如: 芋頭、豆漿、小碗)..." oninput="handleSearch()">
-      <button id="clearSearchBtn" class="clear-search" onclick="clearSearch()">×</button>
+      <input type="text" class="search-input" id="searchInput" placeholder="輸入品名、配料、糖度或克數速查..." oninput="handleSearch()">
+      <button class="clear-search-btn" id="clearSearchBtn" onclick="clearSearch()">✕</button>
     </div>
   </header>
 
@@ -706,62 +794,40 @@
     <!-- JS 動態載入分類內容或搜尋結果 -->
   </main>
 
-  <!-- 學員身分設定彈窗 -->
-  <div class="modal-overlay" id="profileModal">
+  <!-- 考核模式選擇彈窗 -->
+  <div class="modal-overlay" id="quizChooserModal">
     <div class="modal-box">
       <div class="modal-header">
-        <span class="modal-title">👤 學員基本資料設定</span>
-        <button class="close-btn" onclick="closeProfileModal()">✕</button>
+        <span class="modal-title">🎓 請選擇考核模式</span>
+        <button class="close-btn" onclick="closeQuizChooser()">✕</button>
       </div>
       <div class="modal-body">
-        <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 14px;">
-          請填寫您的姓名與所屬門市，以便將研讀進度與考核成績正確記錄至管理人員的 Google 試算表：
-        </div>
-        <div class="form-group">
-          <label class="form-label">學員姓名 *</label>
-          <input type="text" id="inputStudentName" class="form-input" placeholder="例如：陳小明">
-        </div>
-        <div class="form-group">
-          <label class="form-label">所屬門市 / 班別 *</label>
-          <input type="text" id="inputStoreBranch" class="form-input" placeholder="例如：總店 / 早班">
-        </div>
-        <button class="submit-quiz-btn" onclick="saveProfile()">確認儲存</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 系統與後台 API 設定彈窗 -->
-  <div class="modal-overlay" id="settingsModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <span class="modal-title">⚙️ 系統設定 & Google 試算表串接</span>
-        <button class="close-btn" onclick="closeSettings()">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label">Google Apps Script Web App 網址</label>
-          <input type="text" id="inputApiUrl" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
-          <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 4px;">
-            管理人員請依照 <code>google_sheet_setup_guide.md</code> 教學取得此網址貼入。
+        <div class="quiz-choice-card" onclick="startUnitQuizFromChooser()">
+          <div class="quiz-choice-icon">📝</div>
+          <div class="quiz-choice-info">
+            <div class="quiz-choice-title" id="chooserUnitTitle">【當前單元】隨堂測驗 (5題)</div>
+            <div class="quiz-choice-desc">每題 20 分，共 100 分。針對目前閱讀之單元即時抽測，檢驗章節吸收程度！</div>
           </div>
+          <div style="color: var(--primary); font-weight: 700;">➔</div>
         </div>
-        <button class="submit-quiz-btn" onclick="saveSettings()">儲存設定</button>
 
-        <hr style="margin: 20px 0; border: none; border-top: 1px solid var(--border);">
-
-        <div style="font-size: 0.84rem; color: #64748b; margin-bottom: 8px;">進度重設：</div>
-        <button style="width: 100%; padding: 10px; background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; border-radius: 10px; font-weight: 600; cursor: pointer;" onclick="resetAllProgress()">
-          🔄 清除本機所有研讀進度 (重新練習)
-        </button>
+        <div class="quiz-choice-card" onclick="startFinalExamFromChooser()">
+          <div class="quiz-choice-icon">🏆</div>
+          <div class="quiz-choice-info">
+            <div class="quiz-choice-title">【全模組】綜合總考核 (25題)</div>
+            <div class="quiz-choice-desc">涵蓋 7 大系列全部標準規範，共 25 題，每題 4 分，滿分 100 分（80分合格）。門市正式結訓考核！</div>
+          </div>
+          <div style="color: #d97706; font-weight: 700;">➔</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 隨堂測驗彈窗 -->
+  <!-- 測驗答題彈窗 -->
   <div class="modal-overlay" id="quizModal">
     <div class="modal-box">
       <div class="modal-header">
-        <span class="modal-title">🎓 新人考核測驗 (隨機 5 題)</span>
+        <span class="modal-title" id="quizModalTitle">🎓 新人考核測驗</span>
         <button class="close-btn" onclick="closeQuiz()">✕</button>
       </div>
       <div class="modal-body">
@@ -780,6 +846,53 @@
             <span>📤 上傳測驗成果至管理人員試算表</span>
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 學員身分登錄彈窗 -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">👤 學員身分登錄</span>
+        <button class="close-btn" onclick="closeProfileModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.84rem; color: var(--text-sub); margin-top: 0;">
+          登錄您的姓名與門市，您的研讀進度與考核測驗成果將自動即時傳送至門市主管的進度表。
+        </p>
+        <div class="form-group">
+          <label class="form-label">學員姓名 *</label>
+          <input type="text" class="form-input" id="inputStudentName" placeholder="例如：王小明">
+        </div>
+        <div class="form-group">
+          <label class="form-label">所屬門市 / 班別</label>
+          <input type="text" class="form-input" id="inputStoreBranch" placeholder="例如：總店 / 早班">
+        </div>
+        <button class="submit-quiz-btn" onclick="saveProfile()">儲存並綁定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 設定彈窗 (Google Sheet API 綁定) -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">⚙️ 系統設定與後台連結</span>
+        <button class="close-btn" onclick="closeSettings()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Google 試算表 Web App API 網址</label>
+          <input type="text" class="form-input" id="inputApiUrl" placeholder="https://script.google.com/macros/s/.../exec">
+          <p style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">
+            已預設綁定門市管理後台。如需更換試算表請在此輸入。
+          </p>
+        </div>
+        <button class="submit-quiz-btn" style="background: #0284c7;" onclick="saveSettings()">儲存 API 網址</button>
+        
+        <hr style="border: none; border-top: 1px solid var(--border); margin: 20px 0;">
+        <button class="submit-quiz-btn" style="background: #ef4444;" onclick="resetAllProgress()">清除手機本機研讀紀錄</button>
       </div>
     </div>
   </div>
@@ -1923,48 +2036,63 @@
   }
 };
 
+    // 內嵌單元與綜合題庫
+    const categoryQuizBank = {"1": [{"q": "綜合豆花的黃金比例為何？做餐標準流程順序為何？", "options": ["黃金比例 1:1:1 (豆花1:配料1:湯1)；順序：豆花 ➔ 糖膏 ➔ 配料 ➔ 碎冰 ➔ 湯底", "黃金比例 2:1:1；順序：配料 ➔ 豆花 ➔ 糖膏 ➔ 湯底", "黃金比例 1:2:1；順序：豆花 ➔ 配料 ➔ 碎冰 ➔ 糖膏 ➔ 湯底", "黃金比例 1:1:2；順序：碎冰 ➔ 豆花 ➔ 糖膏 ➔ 湯底"], "ans": 0}, {"q": "單品豆花中，紅豆豆花與綠豆豆花的標準豆花克數與豆粒重量各為多少？", "options": ["豆花 170g，豆粒 100g", "豆花 200g (2片，誤差±10g)，豆粒 140g (2匙)", "豆花 220g (2.5片)，豆粒 160g (2.5匙)", "豆花 250g (3片)，豆粒 180g (3匙)"], "ans": 1}, {"q": "圓類豆花（芋圓/湯圓/粉圓）之標準豆花重量與糖度為何？搭配什麼湯底？", "options": ["豆花 220g (2.5片)，糖度 4分糖，搭配甜湯", "豆花 170g (1.5片)，糖度 6分糖，搭配豆漿", "豆花 200g (2片)，糖度 9分糖，搭配紅豆汁", "豆花 250g (3片)，糖度 12分糖，搭配甜湯"], "ans": 0}, {"q": "客人要求加冰時，少冰、加冰、多冰分別應追加多少糖膏？", "options": ["少冰+1分、加冰+2分、多冰+3分", "少冰+2分、加冰+4分、多冰+6分", "少冰不補糖、加冰+3分、多冰+5分", "少冰+3分、加冰+6分、多冰+9分"], "ans": 1}, {"q": "純豆花與豆漿豆花的標準豆花份量分別為多少？豆漿豆花標準糖度為幾分？", "options": ["皆為 250g (約3片)；豆漿豆花為 12分糖", "純豆花 200g，豆漿豆花 250g；豆漿豆花為 16分糖", "皆為 200g；豆漿豆花為 8分糖", "純豆花 220g，豆漿豆花 200g；豆漿豆花為 10分糖"], "ans": 0}], "2": [{"q": "仙草凍的標準切法尺寸為何？冬天可否放入熱品甜湯？", "options": ["隨機切碎；冬天可用於熱品", "橫切縱切井字間距約 2cm，大勺起厚度 2cm；冬天仙草凍絕不可用於熱品", "切薄片 1cm；冬天可微波加熱使用", "切大塊 5cm；冬天依客人要求可加入熱品"], "ans": 1}, {"q": "做餐時仙草凍秤重有何鐵則？", "options": ["必須連同仙草汁一起秤重", "需瀝乾仙草汁後再秤重（秤重不含仙草汁）", "先秤空碗重再直接撈入", "不需秤重，依目測盛裝即可"], "ans": 1}, {"q": "燒仙草煮製時，二砂與特砂的半桶與一桶標準比例重量為何？", "options": ["半桶 150g / 一桶 300g", "半桶 230g / 一桶 460g", "半桶 300g / 一桶 600g", "半桶 180g / 一桶 360g"], "ans": 1}, {"q": "綜合燒仙草完成後約佔紙杯多少料？外帶時必須隨附什麼配料包？", "options": ["約 1/2 杯料；附奶球 1 顆", "約 1/3 杯料；每碗均附 12g 硬花生 1 小包", "約 2/3 杯料；附糖包 1 包", "約 1/4 杯料；附餅乾 1 包"], "ans": 1}, {"q": "綜合仙草凍的標準做餐規格為何？（糖度與湯底）", "options": ["仙草凍 1大勺 + 任選3料各2/3匙，加4分糖膏，不加湯底", "仙草凍半碗，加甜湯至八分滿，糖度6分", "仙草凍1大勺，加豆漿湯底，糖度8分", "仙草凍1大勺，加碎冰與紅豆汁，糖度12分"], "ans": 0}], "3": [{"q": "薏仁湯在門市出餐與保存時之攪拌規範為何？如何判定壞變不可用？", "options": ["順時針輕轉表面即可；顏色變黑才算壞變", "必須由底往上充分均勻攪拌防止沉澱；湯汁清無稠狀代表失冰壞變不可使用", "嚴禁由底攪拌以免出水；發酵起泡才算壞變", "冷藏保存不需攪拌；靜置出水分層屬正常現象"], "ans": 1}, {"q": "鮮奶系列（紅豆薏仁牛奶、紫米紅豆薏仁牛奶等）之出餐鐵則為何？", "options": ["均為撈粒 1.5匙(60g)，絕非加薏仁湯，再加入鮮奶 100cc", "加滿薏仁湯底再淋上鮮奶 50cc", "撈粒 2匙(80g)加半糖甜湯，再倒鮮奶", "撈粒 1匙(40g)加碎冰打成冰沙"], "ans": 0}, {"q": "客人要求將薏仁系列湯底變更為豆漿時，主料薏仁應如何處理？", "options": ["連同薏仁原湯加入豆漿中", "改為撈粒處理（綜合1.5匙/60g，單品2匙/80g），再注入豆漿", "拒絕客人變更湯底之要求", "直接加入豆漿粉攪拌"], "ans": 1}, {"q": "紫米紅豆薏仁中，紫米在加熱或保溫做餐時之重要防呆規範為何？", "options": ["加熱中切勿攪拌，以免失去黏性散開", "加熱中需高速連續攪拌防止黏鍋", "加熱必須加糖膏2匙", "紫米必須先用熱水沖洗去除黏稠"], "ans": 0}, {"q": "花生薏仁的花生粒標準份量是多少？與花生豆花有何不同？", "options": ["花生薏仁 1匙(50g)，與花生豆花相同", "花生薏仁花生粒為 1.5匙(70g)；花生豆花花生粒為 1匙(50g)", "花生薏仁花生粒為 2匙(100g)；花生豆花為 1.5匙(70g)", "花生薏仁花生粒為 2.5匙(120g)；花生豆花為 2匙(100g)"], "ans": 1}], "4": [{"q": "刨冰系列小碗(750cc)與大碗(900cc)的內用與外帶標準糖膏匙數各是多少？", "options": ["小碗 2/1匙，大碗 3/2匙", "小碗 內用2.5匙 / 外帶1.5匙；大碗 內用3.5匙 / 外帶2.5匙", "小碗 內用3匙 / 外帶2匙；大碗 內用4匙 / 外帶3匙", "內用與外帶糖膏匙數完全相同"], "ans": 1}, {"q": "刨冰小碗與大碗之標準煉乳淋醬量各是多少 cc？", "options": ["小碗 20cc，大碗 35cc", "小碗 35cc，大碗 50cc", "小碗 50cc，大碗 70cc", "一律淋 30cc"], "ans": 1}, {"q": "刨冰內用標準製作流程順序為何？", "options": ["配料 ➔ 刨冰 ➔ 糖膏 ➔ 煉乳 ➔ 冰淇淋", "刨冰 ➔ 糖膏 ➔ 配料 ➔ 煉乳 ➔ 冰淇淋 (煉乳切勿淋在冰淇淋上)", "刨冰 ➔ 煉乳 ➔ 冰淇淋 ➔ 配料 ➔ 糖膏", "糖膏 ➔ 配料 ➔ 刨冰 ➔ 冰淇淋 ➔ 煉乳"], "ans": 1}, {"q": "刨冰外帶製作流程中，為何需要「敲冰壓平」與「二次糖膏」？", "options": ["防融化塌陷；半杯敲冰壓底放料，最後加冰壓稍凸並淋第二次糖膏保持甜度", "單純為了讓碗裝得更滿好看", "因為外帶冰量較少需要重壓", "避免客人搖晃溢出"], "ans": 0}, {"q": "麵茶刨冰中小碗與大碗的麵茶粉標準份量各是多少？", "options": ["小碗 1匙(10g)，大碗 1.5匙(15g)", "小碗 1.5匙(18g)，大碗 2匙(25g)", "小碗 2匙(25g)，大碗 3匙(35g)", "均為 1匙(15g)"], "ans": 1}], "5": [{"q": "湯芋圓 / 甜湯系列做餐之順序鐵則為何？", "options": ["圓類 ➔ 豆類 ➔ 湯底 ➔ 糖膏", "豆類 ➔ 圓類 ➔ 糖膏 ➔ 湯底 (嚴禁先放圓類，以防誤判未完成)", "糖膏 ➔ 圓類 ➔ 豆類 ➔ 湯底", "湯底 ➔ 豆類 ➔ 圓類 ➔ 糖膏"], "ans": 1}, {"q": "甜湯全系列（包括花生湯底）之甜度標準統一為幾分糖？", "options": ["2分糖", "4分糖（花生湯底亦需加 4分糖以激發花生濃郁香氣）", "6分糖", "花生湯底不加糖，其餘4分糖"], "ans": 1}, {"q": "熱品甜湯出餐時，豆類與圓類的加熱撈取鐵則為何？", "options": ["連原汁直接倒入碗中加熱", "使用漏勺充分瀝汁做餐，確保甜湯濃度與比例精準", "以冷料直接沖入熱甜湯即可", "熱水沖洗料後再盛裝"], "ans": 1}, {"q": "單品純湯圓與純芋圓的標準做餐數量／重量各為何？", "options": ["純湯圓 100g；純芋圓 18顆", "純湯圓 140g (2匙)；純芋圓 24顆 (16芋8地瓜)", "純湯圓 180g (2.5匙)；純芋圓 30顆", "純湯圓 120g；純芋圓 20顆"], "ans": 1}, {"q": "綜合湯芋圓的標準配料組合為何？", "options": ["湯圓 1匙(70g) + 芋圓 12顆 (8芋4地瓜) + 豆類任選 1匙(70g)，4分糖", "湯圓半匙 + 芋圓 8顆 + 豆類半匙，6分糖", "湯圓 2匙 + 芋圓 16顆，不加豆類", "任選配料 4種各 1匙"], "ans": 0}], "6": [{"q": "門市飲品系列杯型規格 M、L 與罐裝之標準容量各是多少？", "options": ["M 350cc、L 500cc、罐裝 700cc", "M 500cc、L 660~700cc、罐裝 1000cc", "M 450cc、L 600cc、罐裝 900cc", "M 500cc、L 750cc、罐裝 1200cc"], "ans": 1}, {"q": "原味豆漿的標準糖度（全糖）於 M、L 與罐裝各為多少分糖？", "options": ["M 12分、L 18分、罐 24分", "M 16分、L 24分、罐 32分（半糖分別為 8/12/16分）", "M 20分、L 30分、罐 40分", "全規格均為 10分糖"], "ans": 1}, {"q": "豆漿紅茶做餐時，紅茶與糖度比例於各杯型標準為何？", "options": ["M 紅茶150cc(6分糖)、L 紅茶200cc(9分糖)、罐 紅茶300cc(12分糖)", "M 紅茶200cc(9分糖)、L 紅茶300cc(12分糖)、罐 紅茶400cc(18分糖)，其餘豆漿補滿", "紅茶與豆漿各半(1:1)，全系列10分糖", "M 紅茶250cc(12分糖)、L 紅茶350cc(16分糖)、罐 紅茶500cc(24分糖)"], "ans": 1}, {"q": "綠豆汁與紅豆汁出餐之「攪拌防呆原則」為何？", "options": ["每天早上攪拌一次即可", "豆沙極易沉澱，每連續出餐 2 杯前務必再次均勻充分攪拌", "嚴禁攪拌，讓客人喝上層清汁", "出餐前加入冰塊搖勻即可"], "ans": 1}, {"q": "凍飲類（如鮮奶仙草凍飲）標準做餐順序為何？", "options": ["鮮奶 ➔ 糖膏 ➔ 粉圓 ➔ 凍類", "凍類 ➔ 粉圓 ➔ 糖膏 ➔ 湯汁或鮮奶", "糖膏 ➔ 鮮奶 ➔ 凍類 ➔ 粉圓", "粉圓 ➔ 鮮奶 ➔ 糖膏 ➔ 凍類"], "ans": 1}], "7": [{"q": "加料區中，標準單份加料重量何者正確？", "options": ["紅豆/綠豆/彎豆/湯圓/仙草各 1匙 (70g)；花生 1匙 (50g)；芋圓 12顆 (70g)", "所有配料統一均為 50g", "紅豆 100g、芋圓 20顆、花生 80g", "配料均以目測 8分滿為準不秤重"], "ans": 0}, {"q": "粉圓加料之標準平匙重量是多少？", "options": ["1 平匙 40g", "1 平匙 60g", "1 平匙 80g", "1 凸匙 100g"], "ans": 1}, {"q": "桶蓋顏色標示中：薏仁湯、紅豆汁、綠豆汁、甜湯、豆漿貼紙顏色分別為何？", "options": ["薏仁:藍色 | 紅豆:紅色 | 綠豆:綠色 | 甜湯:黃色 | 豆漿:白色", "薏仁:黃色 | 紅豆:紅色 | 綠豆:藍色 | 甜湯:白色 | 豆漿:黑色", "薏仁:藍色 | 紅豆:粉色 | 綠豆:黃色 | 甜湯:紅色 | 豆漿:綠色", "薏仁:白色 | 紅豆:紅色 | 綠豆:綠色 | 甜湯:藍色 | 豆漿:灰色"], "ans": 0}, {"q": "冬天在工作吧台，豆漿與熱豆花汁的擺放有何嚴格規範？為什麼？", "options": ["必須緊鄰放置以利同時保溫", "務必分開放！因顏色外觀極為相似，防止忙碌時誤拿做錯餐", "豆漿放冷藏，熱豆花汁不加熱", "兩者可隨意調換位置"], "ans": 1}, {"q": "客人加購配料若會影響產品黃金比例（料過多導致湯不足），應如何處理？", "options": ["硬塞入原碗中壓扁", "一律改以 260cc 迷你外帶分裝杯另裝提供", "免費升級為 900cc 大碗", "婉拒客人加購配料"], "ans": 1}]};
+    const comprehensiveQuizBank = [{"cat": "豆花系列", "q": "綜合豆花的黃金比例為何？做餐標準流程順序為何？", "options": ["黃金比例 1:1:1 (豆花1:配料1:湯1)；順序：豆花 ➔ 糖膏 ➔ 配料 ➔ 碎冰 ➔ 湯底", "黃金比例 2:1:1；順序：配料 ➔ 豆花 ➔ 糖膏 ➔ 湯底", "黃金比例 1:2:1；順序：豆花 ➔ 配料 ➔ 碎冰 ➔ 糖膏 ➔ 湯底", "黃金比例 1:1:2；順序：碎冰 ➔ 豆花 ➔ 糖膏 ➔ 湯底"], "ans": 0}, {"cat": "豆花系列", "q": "單品豆花中，紅豆豆花與綠豆豆花的標準豆花克數與豆粒重量為多少？", "options": ["豆花 170g，豆粒 100g", "豆花 200g (2片，誤差±10g)，豆粒 140g (2匙)", "豆花 220g (2.5片)，豆粒 160g (2.5匙)", "豆花 250g (3片)，豆粒 180g (3匙)"], "ans": 1}, {"cat": "豆花系列", "q": "圓類豆花（芋圓/湯圓/粉圓）之標準豆花克數與糖度為何？搭配什麼湯底？", "options": ["豆花 220g (2.5片)，糖度 4分糖，搭配甜湯", "豆花 170g (1.5片)，糖度 6分糖，搭配豆漿", "豆花 200g (2片)，糖度 9分糖，搭配紅豆汁", "豆花 250g (3片)，糖度 12分糖，搭配甜湯"], "ans": 0}, {"cat": "豆花系列", "q": "客人要求加冰時，少冰、正常冰、多冰分別應追加多少糖膏？", "options": ["少冰+1分、加冰+2分、多冰+3分", "少冰+2分、加冰+4分、多冰+6分", "少冰不補糖、加冰+3分、多冰+5分", "少冰+3分、加冰+6分、多冰+9分"], "ans": 1}, {"cat": "仙草系列", "q": "仙草凍的標準切法尺寸為何？冬天可否放入熱品？", "options": ["隨機切碎；冬天可用於熱品", "橫切縱切井字間距約 2cm，大勺起厚度 2cm；冬天仙草凍絕不可用於熱品", "切薄片 1cm；冬天可微波加熱使用", "切大塊 5cm；冬天依客人要求可加入熱品"], "ans": 1}, {"cat": "仙草系列", "q": "做餐時仙草凍秤重有何鐵則？", "options": ["必須連同仙草汁一起秤重", "需瀝乾仙草汁後再秤重（秤重不含仙草汁）", "先秤空碗重再直接撈入", "不需秤重，依目測盛裝即可"], "ans": 1}, {"cat": "仙草系列", "q": "燒仙草煮製時，二砂與特砂的半桶與一桶標準比例重量為何？", "options": ["半桶 150g / 一桶 300g", "半桶 230g / 一桶 460g", "半桶 300g / 一桶 600g", "半桶 180g / 一桶 360g"], "ans": 1}, {"cat": "仙草系列", "q": "綜合燒仙草完成後約佔紙杯多少料？外帶時必須隨附什麼配料包？", "options": ["約 1/2 杯料；附奶球 1 顆", "約 1/3 杯料；每碗均附 12g 硬花生 1 小包", "約 2/3 杯料；附糖包 1 包", "約 1/4 杯料；附餅乾 1 包"], "ans": 1}, {"cat": "薏仁系列", "q": "薏仁湯在門市出餐與保存時之攪拌規範為何？如何判定壞變不可用？", "options": ["順時針輕轉表面即可；顏色變黑才算壞變", "必須由底往上充分均勻攪拌防止沉澱；湯汁清無稠狀代表失冰壞變不可使用", "嚴禁由底攪拌以免出水；發酵起泡才算壞變", "冷藏保存不需攪拌；靜置出水分層屬正常現象"], "ans": 1}, {"cat": "薏仁系列", "q": "鮮奶系列（紅豆薏仁牛奶、紫米紅豆薏仁牛奶等）之出餐鐵則為何？", "options": ["均為撈粒 1.5匙(60g)，絕非加薏仁湯，再加入鮮奶 100cc", "加滿薏仁湯底再淋上鮮奶 50cc", "撈粒 2匙(80g)加半糖甜湯，再倒鮮奶", "撈粒 1匙(40g)加碎冰打成冰沙"], "ans": 0}, {"cat": "薏仁系列", "q": "客人要求將薏仁系列湯底變更為豆漿時，主料薏仁應如何處理？", "options": ["連同薏仁原湯加入豆漿中", "改為撈粒處理（綜合1.5匙/60g，單品2匙/80g），再注入豆漿", "拒絕客人變更湯底之要求", "直接加入豆漿粉攪拌"], "ans": 1}, {"cat": "薏仁系列", "q": "紫米紅豆薏仁中，紫米在加熱或保溫做餐時之重要防呆規範為何？", "options": ["加熱中切勿攪拌，以免失去黏性散開", "加熱中需高速連續攪拌防止黏鍋", "加熱必須加糖膏2匙", "紫米必須先用熱水沖洗去除黏稠"], "ans": 0}, {"cat": "刨冰系列", "q": "刨冰系列小碗(750cc)與大碗(900cc)的內用與外帶標準糖膏匙數各是多少？", "options": ["小碗 2/1匙，大碗 3/2匙", "小碗 內用2.5匙 / 外帶1.5匙；大碗 內用3.5匙 / 外帶2.5匙", "小碗 內用3匙 / 外帶2匙；大碗 內用4匙 / 外帶3匙", "內用與外帶糖膏匙數完全相同"], "ans": 1}, {"cat": "刨冰系列", "q": "刨冰小碗與大碗之標準煉乳淋醬量各是多少 cc？", "options": ["小碗 20cc，大碗 35cc", "小碗 35cc，大碗 50cc", "小碗 50cc，大碗 70cc", "一律淋 30cc"], "ans": 1}, {"cat": "刨冰系列", "q": "刨冰內用標準製作流程順序為何？", "options": ["配料 ➔ 刨冰 ➔ 糖膏 ➔ 煉乳 ➔ 冰淇淋", "刨冰 ➔ 糖膏 ➔ 配料 ➔ 煉乳 ➔ 冰淇淋 (煉乳切勿淋在冰淇淋上)", "刨冰 ➔ 煉乳 ➔ 冰淇淋 ➔ 配料 ➔ 糖膏", "糖膏 ➔ 配料 ➔ 刨冰 ➔ 冰淇淋 ➔ 煉乳"], "ans": 1}, {"cat": "刨冰系列", "q": "刨冰外帶製作流程中，為何需要「敲冰壓平」與「二次糖膏」？", "options": ["防融化塌陷；半杯敲冰壓底放料，最後加冰壓稍凸並淋第二次糖膏保持甜度", "單純為了讓碗裝得更滿好看", "因為外帶冰量較少需要重壓", "避免客人搖晃溢出"], "ans": 0}, {"cat": "湯芋圓/甜湯系列", "q": "湯芋圓 / 甜湯系列做餐之順序鐵則為何？", "options": ["圓類 ➔ 豆類 ➔ 湯底 ➔ 糖膏", "豆類 ➔ 圓類 ➔ 糖膏 ➔ 湯底 (嚴禁先放圓類，以防誤判未完成)", "糖膏 ➔ 圓類 ➔ 豆類 ➔ 湯底", "湯底 ➔ 豆類 ➔ 圓類 ➔ 糖膏"], "ans": 1}, {"cat": "湯芋圓/甜湯系列", "q": "甜湯全系列（包括花生湯底）之甜度標準統一為幾分糖？", "options": ["2分糖", "4分糖（花生湯底亦需加 4分糖以激發花生濃郁香氣）", "6分糖", "花生湯底不加糖，其餘4分糖"], "ans": 1}, {"cat": "湯芋圓/甜湯系列", "q": "單品純湯圓與純芋圓的標準做餐數量／重量各為何？", "options": ["純湯圓 100g；純芋圓 18顆", "純湯圓 140g (2匙)；純芋圓 24顆 (16芋8地瓜)", "純湯圓 180g (2.5匙)；純芋圓 30顆", "純湯圓 120g；純芋圓 20顆"], "ans": 1}, {"cat": "飲品系列", "q": "門市飲品系列杯型規格 M、L 與罐裝之標準容量各是多少？", "options": ["M 350cc、L 500cc、罐裝 700cc", "M 500cc、L 660~700cc、罐裝 1000cc", "M 450cc、L 600cc、罐裝 900cc", "M 500cc、L 750cc、罐裝 1200cc"], "ans": 1}, {"cat": "飲品系列", "q": "原味豆漿的標準糖度（全糖）於 M、L 與罐裝各為多少分糖？", "options": ["M 12分、L 18分、罐 24分", "M 16分、L 24分、罐 32分（半糖分別為 8/12/16分）", "M 20分、L 30分、罐 40分", "全規格均為 10分糖"], "ans": 1}, {"cat": "飲品系列", "q": "豆漿紅茶做餐時，紅茶與糖度比例於各杯型標準為何？", "options": ["M 紅茶150cc(6分糖)、L 紅茶200cc(9分糖)、罐 紅茶300cc(12分糖)", "M 紅茶200cc(9分糖)、L 紅茶300cc(12分糖)、罐 紅茶400cc(18分糖)，其餘豆漿補滿", "紅茶與豆漿各半(1:1)，全系列10分糖", "M 紅茶250cc(12分糖)、L 紅茶350cc(16分糖)、罐 紅茶500cc(24分糖)"], "ans": 1}, {"cat": "加料與規格", "q": "桶蓋顏色標示中：薏仁湯、紅豆汁、綠豆汁、甜湯、豆漿貼紙顏色分別為何？", "options": ["薏仁:藍色 | 紅豆:紅色 | 綠豆:綠色 | 甜湯:黃色 | 豆漿:白色", "薏仁:黃色 | 紅豆:紅色 | 綠豆:藍色 | 甜湯:白色 | 豆漿:黑色", "薏仁:藍色 | 紅豆:粉色 | 綠豆:黃色 | 甜湯:紅色 | 豆漿:綠色", "薏仁:白色 | 紅豆:紅色 | 綠豆:綠色 | 甜湯:藍色 | 豆漿:灰色"], "ans": 0}, {"cat": "加料與規格", "q": "加料區中，標準單份加料重量何者正確？", "options": ["紅豆/綠豆/彎豆/湯圓/仙草各 1匙 (70g)；花生 1匙 (50g)；芋圓 12顆 (70g)", "所有配料統一均為 50g", "紅豆 100g、芋圓 20顆、花生 80g", "配料均以目測 8分滿為準不秤重"], "ans": 0}, {"cat": "加料與規格", "q": "客人加購配料若會影響產品黃金比例（料過多導致湯不足），應如何處理？", "options": ["硬塞入原碗中壓扁", "一律改以 260cc 迷你外帶分裝杯另裝提供", "免費升級為 900cc 大碗", "婉拒客人加購配料"], "ans": 1}];
+
+    const categoryNames = {
+      1: "豆花系列",
+      2: "仙草系列",
+      3: "薏仁系列",
+      4: "刨冰系列",
+      5: "湯芋圓系列",
+      6: "飲品系列",
+      7: "加料&規格"
+    };
+
     // 系統狀態
     let currentCategory = 1;
     let isSearchMode = false;
     let completedCategories = JSON.parse(localStorage.getItem('sop_completed_cats') || '[]');
     let traineeProfile = JSON.parse(localStorage.getItem('sop_trainee_profile') || '{"name":"","branch":""}');
     let gasApiUrl = localStorage.getItem('sop_gas_api_url') || 'https://script.google.com/macros/s/AKfycbzv2tMq5PKoIxRfolM9C5s9M6zrzUA0Fgp5vjTg3y3hvTcPCXHa4n4DjJccc_Y1qrIUWA/exec';
+    
+    // 測驗執行狀態
+    let currentQuizMode = 'unit'; // 'unit' 或 'final'
+    let currentQuizCatId = 1;
     let currentQuizQuestions = [];
     let latestQuizScore = null;
+    let latestCorrectCount = 0;
 
     // 初始化
     function init() {
       updateProfileUI();
       renderCategory(1);
-
-      // 若首次使用，彈出輸入身分對話框
-      if (!traineeProfile.name) {
-        setTimeout(openProfileModal, 600);
-      }
     }
 
-    // 更新學員資訊列與進度條
+    // 更新學員資訊列 UI
     function updateProfileUI() {
       const nameEl = document.getElementById('traineeNameDisplay');
-      const branchEl = document.getElementById('traineeBranchDisplay');
-      const progressTextEl = document.getElementById('traineeProgressText');
-      const progressFillEl = document.getElementById('progressBarFill');
+      const progEl = document.getElementById('traineeProgressDisplay');
 
-      nameEl.innerText = traineeProfile.name ? `學員：${traineeProfile.name}` : '學員：未設定';
-      branchEl.innerText = traineeProfile.branch ? traineeProfile.branch : '點此設定門市';
+      if (traineeProfile.name) {
+        nameEl.innerText = `${traineeProfile.name} (${traineeProfile.branch || '門市'} Plan)`;
+      } else {
+        nameEl.innerText = '點此登錄學員身分';
+      }
 
       const count = completedCategories.length;
-      const pct = Math.round((count / 7) * 100);
-      progressTextEl.innerText = `進度 ${pct}% (${count}/7)`;
-      progressFillEl.style.width = `${pct}%`;
+      progEl.innerText = `研讀進度 ${count}/7`;
 
       // 更新 Tab 上的勾勾
       for (let i = 1; i <= 7; i++) {
-        const tab = document.getElementById(`tabBtn${i}`);
-        if (completedCategories.includes(i)) {
-          tab.classList.add('completed');
-        } else {
-          tab.classList.remove('completed');
+        const btn = document.getElementById(`tabBtn${i}`);
+        if (btn) {
+          if (completedCategories.includes(i)) {
+            btn.classList.add('completed');
+          } else {
+            btn.classList.remove('completed');
+          }
         }
       }
     }
@@ -1998,6 +2126,7 @@
       if (!cat) return;
 
       const isCompleted = completedCategories.includes(catId);
+      const catShortName = categoryNames[catId] || cat.title.split(' ')[0];
 
       if (catId <= 6) {
         let html = `
@@ -2055,12 +2184,20 @@
           `;
         }
 
-        // 底部打卡按鈕
+        // 底部打卡與測驗按鈕組
         html += `
           <div class="completion-box">
             <button class="completion-btn ${isCompleted ? 'btn-done' : 'btn-not-done'}" onclick="toggleCategoryCompletion(${catId})">
               <span>${isCompleted ? '✅ 本系列已完成研讀 (點擊取消)' : '📌 標記【' + cat.title + '】已完成研讀'}</span>
             </button>
+            <div class="category-quiz-bottom-box">
+              <button class="btn-unit-quiz" onclick="startQuiz('unit', ${catId})">
+                <span>📝 進行【${catShortName}】單元隨堂考 (5題)</span>
+              </button>
+              <button class="btn-final-quiz" onclick="startQuiz('final')">
+                <span>🏆 挑戰全模組綜合總考核 (25題)</span>
+              </button>
+            </div>
           </div>
         `;
 
@@ -2121,58 +2258,59 @@
             `).join('')}
           </div>
 
-          <div class="rules-section" style="margin-top: 20px;">
-            <div class="rules-title">⚠️ 備料管理與安全原則</div>
-            <ul class="rules-list">
-              ${cat.golden_rules.map(r => `<li>${r}</li>`).join('')}
-            </ul>
-          </div>
-
           <div class="completion-box">
             <button class="completion-btn ${isCompleted ? 'btn-done' : 'btn-not-done'}" onclick="toggleCategoryCompletion(7)">
-              <span>${isCompleted ? '✅ 本系列已完成研讀 (點擊取消)' : '📌 標記【加料與規格】已研讀完成'}</span>
+              <span>${isCompleted ? '✅ 本系列已完成研讀 (點擊取消)' : '📌 標記【加料&規格】已完成研讀'}</span>
             </button>
+            <div class="category-quiz-bottom-box">
+              <button class="btn-unit-quiz" onclick="startQuiz('unit', 7)">
+                <span>📝 進行【加料&規格】單元隨堂考 (5題)</span>
+              </button>
+              <button class="btn-final-quiz" onclick="startQuiz('final')">
+                <span>🏆 挑戰全模組綜合總考核 (25題)</span>
+              </button>
+            </div>
           </div>
         `;
         container.innerHTML = html;
       }
     }
 
-    // 打卡切換完成狀態
+    // 切換研讀完成標記
     function toggleCategoryCompletion(catId) {
       const idx = completedCategories.indexOf(catId);
-      let actionName = "";
+      let action = "";
       if (idx > -1) {
         completedCategories.splice(idx, 1);
-        actionName = "取消標記研讀";
+        action = "取消研讀完成";
       } else {
         completedCategories.push(catId);
-        actionName = "完成章節研讀";
+        action = "標記研讀完成";
       }
 
       localStorage.setItem('sop_completed_cats', JSON.stringify(completedCategories));
       updateProfileUI();
       renderCategory(catId);
 
-      // 同步回傳至 Google Sheet
-      const catTitle = sopData[catId].title;
+      // 上傳打卡紀錄至 Google 試算表
+      const cat = sopData[catId];
       const count = completedCategories.length;
       const pct = Math.round((count / 7) * 100);
 
       sendPayloadToSheet({
         student_name: traineeProfile.name || "未登錄",
         store_branch: traineeProfile.branch || "未指定",
-        action: actionName,
-        category: catTitle,
+        action: action,
+        category: cat ? cat.title : `分類${catId}`,
         score: "-",
         progress: `${pct}% (${count}/7)`,
-        notes: `學員點擊了【${catTitle}】完成按鈕`
+        notes: `已累計完成 ${count} / 7 個系列研讀`
       });
 
-      showToast(`已更新【${catTitle}】研讀進度！`);
+      showToast(`${action}：${categoryNames[catId]}`);
     }
 
-    // 搜尋功能
+    // 即時搜尋功能
     function handleSearch() {
       const kw = document.getElementById('searchInput').value.trim().toLowerCase();
       const clearBtn = document.getElementById('clearSearchBtn');
@@ -2187,32 +2325,41 @@
       const container = document.getElementById('contentContainer');
       let matches = [];
 
+      // 搜尋 1~6 分類 items
       for (let i = 1; i <= 6; i++) {
         const cat = sopData[i];
-        cat.items.forEach(it => {
-          if (it.name.toLowerCase().includes(kw) ||
-              it.ingredients.toLowerCase().includes(kw) ||
-              it.soup_base.toLowerCase().includes(kw) ||
-              it.main_ingredient.toLowerCase().includes(kw)) {
-            matches.push({ catTitle: cat.title, item: it });
+        if (!cat) continue;
+        cat.items.forEach(item => {
+          const text = `${item.name} ${item.sugar_level} ${item.main_ingredient} ${item.ingredients} ${item.soup_base} ${item.notes ? item.notes.join(' ') : ''}`.toLowerCase();
+          if (text.includes(kw)) {
+            matches.push({ catTitle: cat.title, item: item });
           }
         });
       }
 
-      const add7 = sopData[7].standard_addon_portions.filter(a => a.item.toLowerCase().includes(kw));
+      // 搜尋分類 7 加料
+      const cat7 = sopData[7];
+      let add7 = [];
+      if (cat7) {
+        cat7.standard_addon_portions.forEach(a => {
+          if (`${a.item} ${a.portion} ${a.rule}`.toLowerCase().includes(kw)) {
+            add7.push(a);
+          }
+        });
+      }
 
       if (matches.length === 0 && add7.length === 0) {
-        container.innerHTML = `<div class="no-result">🔍 找不到包含「<strong>${kw}</strong>」的品項或配料，請嘗試更簡短的關鍵字。</div>`;
+        container.innerHTML = `<div class="no-result">查無「${kw}」相關品項或規範，請嘗試不同關鍵字。</div>`;
         return;
       }
 
-      let html = `<div style="font-size: 0.88rem; color: #64748b; margin-bottom: 12px;">🔍 搜尋「<strong>${kw}</strong>」找到 ${matches.length + add7.length} 筆結果：</div>`;
+      let html = `<div style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 12px;">🔍 搜尋「<strong>${kw}</strong>」共找到 ${matches.length + add7.length} 筆結果：</div>`;
 
       matches.forEach(m => {
         const it = m.item;
         html += `
           <div class="item-card">
-            <div style="font-size: 0.75rem; color: var(--primary); font-weight: 700; margin-bottom: 4px;">【${m.catTitle}】</div>
+            <div style="font-size: 0.72rem; color: var(--primary); font-weight: 700; margin-bottom: 4px;">📂 ${m.catTitle}</div>
             <div class="item-header">
               <h3 class="item-title">${it.name}</h3>
               <span class="item-sugar-badge">${it.sugar_level}</span>
@@ -2258,113 +2405,32 @@
     }
 
     // ==========================================
-    // 隨堂測驗系統 (選擇題模式)
+    // 測驗系統 (單元隨堂考 5題 / 全模組總考 25題)
     // ==========================================
-    const quizQuestionBank = [
-      {
-        q: "綜合豆花的黃金比例為何？做餐標準順序為何？",
-        options: [
-          "比例 1:1:1；順序：豆花 ➔ 糖膏 ➔ 配料 ➔ 碎冰 ➔ 湯底",
-          "比例 2:1:1；順序：配料 ➔ 豆花 ➔ 糖膏 ➔ 湯底",
-          "比例 1:2:1；順序：豆花 ➔ 配料 ➔ 碎冰 ➔ 糖膏",
-          "比例 1:1:2；順序：碎冰 ➔ 豆花 ➔ 糖膏 ➔ 湯底"
-        ],
-        ans: 0
-      },
-      {
-        q: "紅豆豆花與綠豆豆花的標準豆花克數與豆粒重量為多少？",
-        options: [
-          "豆花 170g，豆粒 100g",
-          "豆花 200g (2片)，豆粒 140g (2匙)",
-          "豆花 220g (2.5片)，豆粒 180g (2.5匙)",
-          "豆花 250g (3片)，豆粒 200g (3匙)"
-        ],
-        ans: 1
-      },
-      {
-        q: "客人要求加冰時，少冰、加冰、多冰分別應追加多少糖膏？",
-        options: [
-          "少冰+1分糖、加冰+2分糖、多冰+3分糖",
-          "少冰+2分糖、加冰+4分糖、多冰+6分糖",
-          "少冰不補糖、加冰+3分糖、多冰+5分糖",
-          "少冰+3分糖、加冰+6分糖、多冰+9分糖"
-        ],
-        ans: 1
-      },
-      {
-        q: "花生薏仁的花生粒標準份量是多少？與花生豆花有何不同？",
-        options: [
-          "花生薏仁 1匙(50g)，與花生豆花相同",
-          "花生薏仁 1.5匙(70g)；花生豆花為 1匙(50g)",
-          "花生薏仁 2匙(100g)；花生豆花為 1.5匙(70g)",
-          "花生薏仁 2.5匙(120g)；花生豆花為 2匙(100g)"
-        ],
-        ans: 1
-      },
-      {
-        q: "刨冰系列小碗(750)與大碗(900)的內用與外帶標準糖膏匙數各是多少？",
-        options: [
-          "小碗 2/1匙，大碗 3/2匙",
-          "小碗 內用2.5/外帶1.5匙；大碗 內用3.5/外帶2.5匙",
-          "小碗 內用3/外帶2匙；大碗 內用4/外帶3匙",
-          "內用與外帶匙數相同，均為3匙"
-        ],
-        ans: 1
-      },
-      {
-        q: "湯芋圓 / 甜湯系列做餐之順序鐵則為何？",
-        options: [
-          "圓類 ➔ 豆類 ➔ 湯底 ➔ 糖膏",
-          "豆類 ➔ 圓類 ➔ 糖膏 ➔ 湯底 (嚴禁先加圓類)",
-          "糖膏 ➔ 圓類 ➔ 豆類 ➔ 湯底",
-          "湯底 ➔ 豆類 ➔ 圓類 ➔ 糖膏"
-        ],
-        ans: 1
-      },
-      {
-        q: "仙草凍的標準切法尺寸為何？冬天可否放入熱品？",
-        options: [
-          "隨機切碎；冬天可用於熱品",
-          "橫切縱切井字間距約2cm，大勺起厚度2cm；冬天仙草凍絕不入熱品",
-          "切片1cm；冬天可微波加熱使用",
-          "切大塊5cm；冬天依客人要求可加入熱品"
-        ],
-        ans: 1
-      },
-      {
-        q: "桶蓋顏色標示中：薏仁湯、紅豆汁、綠豆汁、甜湯的貼紙顏色分別為何？",
-        options: [
-          "薏仁:藍色 | 紅豆:紅色 | 綠豆:綠色 | 甜湯:黃色",
-          "薏仁:黃色 | 紅豆:紅色 | 綠豆:藍色 | 甜湯:白色",
-          "薏仁:白色 | 紅豆:粉色 | 綠豆:綠色 | 甜湯:灰色",
-          "全系列均為無標示原色桶蓋"
-        ],
-        ans: 0
-      },
-      {
-        q: "客人加購配料時，若會影響黃金比例(料變少/湯變少)，應如何處置？",
-        options: [
-          "直接塞入原碗中",
-          "一律改以 260cc 迷你外帶分裝杯另裝提供",
-          "改用 750cc 大碗裝",
-          "拒絕客人加購配料要求"
-        ],
-        ans: 1
-      },
-      {
-        q: "飲品豆漿與豆漿豆花的糖度各是多少分糖？",
-        options: [
-          "飲品豆漿 12分糖；豆漿豆花 16分糖",
-          "飲品豆漿 M杯為 16分糖；豆漿豆花為 12分糖",
-          "兩者皆為 8分糖",
-          "飲品豆漿 24分糖；豆漿豆花 18分糖"
-        ],
-        ans: 1
-      }
-    ];
+    function openQuizChooser() {
+      const currentCatName = categoryNames[currentCategory] || "當前單元";
+      document.getElementById('chooserUnitTitle').innerText = `【${currentCatName}】單元隨堂考 (5題)`;
+      document.getElementById('quizChooserModal').style.display = 'flex';
+    }
 
-    function openQuiz() {
+    function closeQuizChooser() {
+      document.getElementById('quizChooserModal').style.display = 'none';
+    }
+
+    function startUnitQuizFromChooser() {
+      closeQuizChooser();
+      startQuiz('unit', currentCategory);
+    }
+
+    function startFinalExamFromChooser() {
+      closeQuizChooser();
+      startQuiz('final');
+    }
+
+    function startQuiz(mode, catId) {
+      currentQuizMode = mode;
       const modal = document.getElementById('quizModal');
+      const titleEl = document.getElementById('quizModalTitle');
       const container = document.getElementById('quizQuestionsContainer');
       const resultCard = document.getElementById('quizResultCard');
       const submitBtn = document.getElementById('submitQuizBtn');
@@ -2372,14 +2438,27 @@
       resultCard.style.display = 'none';
       submitBtn.style.display = 'block';
 
-      // 隨機抽選 5 題
-      currentQuizQuestions = [...quizQuestionBank].sort(() => 0.5 - Math.random()).slice(0, 5);
+      if (mode === 'unit') {
+        currentQuizCatId = catId || currentCategory;
+        const catName = categoryNames[currentQuizCatId] || `單元${currentQuizCatId}`;
+        titleEl.innerText = `📝 單元隨堂考：【${catName}】 (共 5 題)`;
+
+        const rawList = categoryQuizBank[currentQuizCatId] || [];
+        currentQuizQuestions = [...rawList];
+      } else {
+        titleEl.innerText = `🏆 統元豆花 全模組綜合總考核 (共 25 題)`;
+        currentQuizQuestions = [...comprehensiveQuizBank];
+      }
 
       let html = '';
       currentQuizQuestions.forEach((qItem, qIdx) => {
+        const catTag = qItem.cat ? `<span style="font-size: 0.72rem; background: #ffedd5; color: #9a3412; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: 700;">${qItem.cat}</span>` : '';
         html += `
           <div class="quiz-question-box" id="qBox${qIdx}">
-            <div class="quiz-q-title">Q${qIdx + 1}. ${qItem.q}</div>
+            <div class="quiz-q-title">
+              ${catTag}<strong>第 ${qIdx + 1} 題 / 共 ${currentQuizQuestions.length} 題</strong><br>
+              ${qItem.q}
+            </div>
             <div class="quiz-options">
               ${qItem.options.map((opt, oIdx) => `
                 <div class="quiz-option-label" onclick="selectQuizOption(${qIdx}, ${oIdx})" id="opt_${qIdx}_${oIdx}">
@@ -2394,6 +2473,7 @@
 
       container.innerHTML = html;
       modal.style.display = 'flex';
+      container.scrollTop = 0;
     }
 
     function selectQuizOption(qIdx, oIdx) {
@@ -2414,6 +2494,10 @@
     function gradeQuiz() {
       let score = 0;
       let unanswered = 0;
+      let correctCount = 0;
+
+      const totalQ = currentQuizQuestions.length;
+      const pointsPerQ = currentQuizMode === 'unit' ? 20 : 4; // 5題每題20分，25題每題4分
 
       currentQuizQuestions.forEach((qItem, qIdx) => {
         const parent = document.getElementById(`qBox${qIdx}`);
@@ -2424,7 +2508,7 @@
       });
 
       if (unanswered > 0) {
-        alert(`您還有 ${unanswered} 題尚未作答，請完成後再交卷！`);
+        alert(`您還有 ${unanswered} 題尚未作答，請完整完成全部 ${totalQ} 題後再交卷！`);
         return;
       }
 
@@ -2436,7 +2520,7 @@
 
         const options = parent.querySelectorAll('.quiz-option-label');
         options.forEach((opt, oIdx) => {
-          opt.style.pointerEvents = 'none'; // 鎖定
+          opt.style.pointerEvents = 'none'; // 鎖定不可再選
           if (oIdx === qItem.ans) {
             opt.classList.add('correct');
           }
@@ -2446,11 +2530,13 @@
         });
 
         if (userChoice === qItem.ans) {
-          score += 20;
+          score += pointsPerQ;
+          correctCount++;
         }
       });
 
       latestQuizScore = score;
+      latestCorrectCount = correctCount;
       document.getElementById('submitQuizBtn').style.display = 'none';
 
       const resultCard = document.getElementById('quizResultCard');
@@ -2460,40 +2546,51 @@
       scoreText.innerText = `${score} 分`;
       if (score === 100) {
         scoreText.style.color = '#16a34a';
-        feedbackText.innerText = '太優秀了！完美答對全部 5 題！🎉';
+        feedbackText.innerText = `太優秀了！完美答對全部 ${totalQ} 題！🎉`;
       } else if (score >= 80) {
         scoreText.style.color = '#ea580c';
-        feedbackText.innerText = '及格通過！部分細節可再看手冊確認喔！👍';
+        feedbackText.innerText = `及格過關 (答對 ${correctCount}/${totalQ} 題)！符合門市標準！👍`;
       } else {
         scoreText.style.color = '#dc2626';
-        feedbackText.innerText = '尚未達標，建議回到對應系列加強複習再測驗！💪';
+        feedbackText.innerText = `未達標準 (答對 ${correctCount}/${totalQ} 題)，建議再加強複習手冊規範！💪`;
       }
 
       resultCard.style.display = 'block';
       resultCard.scrollIntoView({ behavior: 'smooth' });
+
+      // 自動即時同步一次至 Google 試算表
+      syncScoreToSheet(false);
     }
 
-    function syncScoreToSheet() {
+    function syncScoreToSheet(isManual = true) {
       if (latestQuizScore === null) return;
 
       const count = completedCategories.length;
       const pct = Math.round((count / 7) * 100);
+      const totalQ = currentQuizQuestions.length;
+
+      let actionName = currentQuizMode === 'unit' ? '單元隨堂考' : '全模組總考核';
+      let catDesc = currentQuizMode === 'unit' ? `單元${currentQuizCatId}. ${categoryNames[currentQuizCatId]} (5題)` : '全模組 25 題綜合總考核';
+      let noteDesc = latestQuizScore >= 80 
+        ? (currentQuizMode === 'unit' ? '單元合格' : '結訓總考試合格 (通過培訓)') 
+        : (currentQuizMode === 'unit' ? '單元需再複習' : '總考核未達標 (需再輔導)');
 
       sendPayloadToSheet({
         student_name: traineeProfile.name || "未登錄",
         store_branch: traineeProfile.branch || "未指定",
-        action: "隨堂考核測驗",
-        category: "綜合隨機測驗",
-        score: `${latestQuizScore} 分 (${latestQuizScore / 20}/5題)`,
+        action: actionName,
+        category: catDesc,
+        score: `${latestQuizScore} 分 (答對 ${latestCorrectCount}/${totalQ} 題)`,
         progress: `${pct}% (${count}/7)`,
-        notes: latestQuizScore >= 80 ? "合格過關" : "需再次複習"
+        notes: noteDesc
       });
 
       const syncBtn = document.getElementById('syncScoreBtn');
       syncBtn.innerHTML = '<span>✅ 成績已成功上傳試算表！</span>';
       syncBtn.style.background = '#047857';
-      syncBtn.style.pointerEvents = 'none';
-      showToast('測驗成績已同步至管理人員 Google 試算表！');
+      if (isManual) {
+        showToast('測驗成績已同步至管理人員 Google 試算表！');
+      }
     }
 
     function closeQuiz() {
